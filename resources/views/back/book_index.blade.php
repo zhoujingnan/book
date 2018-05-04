@@ -32,6 +32,7 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
 <body>
 <!--main_top-->
 <table width="99%" border="0" cellspacing="0" cellpadding="0" id="searchmain">
+  <thead>
   <tr>
     <td width="99%" align="left" valign="top">您的位置：图书管理</td>
   </tr>
@@ -51,11 +52,14 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
 	</table>
     </td>
   </tr>
+  </thead>
+  <tbody class="tt">
   <tr>
     <td align="left" valign="top">
     
     <table width="100%" border="0" cellspacing="0" cellpadding="0" id="main-tab">
       <tr>
+        <th align="center" valign="middle" class="borderright"><span class="pidel">批删</span></th>
         <th align="center" valign="middle" class="borderright">编号</th>
         <th align="center" valign="middle" class="borderright">图书名称</th>
         <th align="center" valign="middle" class="borderright">数量</th>
@@ -69,6 +73,9 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
       </tr>
       @foreach($arr as $key =>$val)
       <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
+        <td align="center" valign="middle" class="borderright borderbottom">
+            <input type="checkbox" name="box" value="{{$val['b_id']}}">
+        </td>
         <td align="center" valign="middle" class="borderright borderbottom">{{$val['b_id']}}</td>
         <td align="center" valign="middle" class="borderright borderbottom">{{$val['b_title']}}</td>
         <td align="center" valign="middle" class="borderright borderbottom">{{$val['num']}}</td>
@@ -84,10 +91,7 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
     </table></td>
     </tr>
   <tr>
-    
-      <input type="text" name="page" value="{{$page}}">
-      <input type="text" name="totalpage" value="{{$totalpage}}">
-      <td align="left" valign="top" class="fenye">{{$count}}条数据 {{$page}}/{{$totalpage}} 页&nbsp;&nbsp;
+      <td align="left" valign="top" class="fenye">{{$count}}条数据 <input type="text" name="page" value="{{$page}}" disabled style="width: 19px">/<input type="text" name="totalpage" value="{{$totalpage}}" disabled style="width:19px;">页&nbsp;&nbsp;
       <span class="span">
           <a href="javascript:void(0)" target="mainFrame" onFocus="this.blur()" class="first">首页</a>&nbsp;&nbsp;
           <a href="javascript:void(0)" target="mainFrame" onFocus="this.blur()" class="prev">上一页</a>&nbsp;&nbsp;
@@ -97,6 +101,8 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
       </td>
     
   </tr>
+  </tbody>
+  <tfoot></tfoot>
 </table>
 </body>
 </html>
@@ -119,8 +125,30 @@ $(function(){
       }else if ($(this).is(".end")){
         p=totalpage;
       }
-      // console.log(p)
+      console.log(p)
       ajaxPage(p);
+  })
+  //批删
+  $(document).on("click",".pidel",function(){
+     var id_obj=$(".check");
+     var id_arr='';
+     $.each(id_obj,function(){
+        id_arr+=$(this).val()+',';
+     })
+    id_arr=id_arr.substr(0,id_arr.length-1);
+    //发送ajax
+    $.ajax({
+      type:'get',
+      url:"<?php echo url('backbook/piDel')?>",
+      data:{id:id_arr},
+      success:function(msg){
+        console.log(msg)
+      }
+    })
+
+  })
+  $(document).on("click","[name='box']",function(){
+    $(this).addClass('check');
   })
   //分页
   function ajaxPage(p){
@@ -129,7 +157,9 @@ $(function(){
         url:"<?php echo url('backbook/ajaxPage')?>",
         data:{page:p},
         success:function(arr){
-            console.log(arr)
+            // console.log(arr)
+            $(".tt").empty();
+            $(".tt").html(arr);
           }
       })
   }

@@ -28,3 +28,4 @@ Route::any('back/getCaptcha','Back\BackLoginController@getCaptcha');
 //图书管理
 Route::any("backbook/index","Back\BackBookController@index");
 Route::get("backbook/ajaxPage","Back\BackBookController@ajaxPage");
+Route::get("backbook/piDel","Back\BackBookController@piDel");
