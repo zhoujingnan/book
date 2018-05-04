@@ -5,6 +5,7 @@
 <link href="{{asset('css/css.css')}}" type="text/css" rel="stylesheet" />
 <link href="{{asset('css/main.css')}}" type="text/css" rel="stylesheet" />
 <link rel="shortcut icon" href="{{asset('images/main/favicon.ico')}}" />
+<script src="{{asset('jquery-1.8.3.js')}}"></script>
 <style>
 body{overflow-x:hidden; background:#f2f0f5; padding:15px 0px 10px 5px;}
 #searchmain{ font-size:12px;}
@@ -83,8 +84,57 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
     </table></td>
     </tr>
   <tr>
-    <td align="left" valign="top" class="fenye">11 条数据 1/1 页&nbsp;&nbsp;<a href="#" target="mainFrame" onFocus="this.blur()">首页</a>&nbsp;&nbsp;<a href="#" target="mainFrame" onFocus="this.blur()">上一页</a>&nbsp;&nbsp;<a href="#" target="mainFrame" onFocus="this.blur()">下一页</a>&nbsp;&nbsp;<a href="#" target="mainFrame" onFocus="this.blur()">尾页</a></td>
+    
+      <input type="text" name="page" value="{{$page}}">
+      <input type="text" name="totalpage" value="{{$totalpage}}">
+      <td align="left" valign="top" class="fenye">{{$count}}条数据 {{$page}}/{{$totalpage}} 页&nbsp;&nbsp;
+      <span class="span">
+          <a href="javascript:void(0)" target="mainFrame" onFocus="this.blur()" class="first">首页</a>&nbsp;&nbsp;
+          <a href="javascript:void(0)" target="mainFrame" onFocus="this.blur()" class="prev">上一页</a>&nbsp;&nbsp;
+          <a href="javascript:void(0)" target="mainFrame" onFocus="this.blur()" class="next">下一页</a>&nbsp;&nbsp;
+          <a href="javascript:void(0)" target="mainFrame" onFocus="this.blur()" class="end">尾页</a>
+      </span>
+      </td>
+    
   </tr>
 </table>
 </body>
 </html>
+<script>
+$(function(){
+  //判断当前页
+  $(document).on("click",".span a",function(){
+      var page=parseInt($("[name='page']").val());
+      var totalpage=parseInt($("[name='totalpage']").val());
+      if($(this).is(".first")){
+        p=1;
+      }else if ($(this).is(".prev")){
+        p=page-1;
+        if(p<1){p=1;}
+      }else if($(this).is(".next")){
+        p=page+1;
+        if(p>totalpage){
+          p=totalpage;
+        }
+      }else if ($(this).is(".end")){
+        p=totalpage;
+      }
+      // console.log(p)
+      ajaxPage(p);
+  })
+  //分页
+  function ajaxPage(p){
+      $.ajax({
+        type:'get',
+        url:"<?php echo url('backbook/ajaxPage')?>",
+        data:{page:p},
+        success:function(arr){
+            console.log(arr)
+          }
+      })
+  }
+
+})
+
+
+</script>

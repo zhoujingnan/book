@@ -38,7 +38,7 @@ body{overflow-x:hidden; background:url({{asset('images/main/leftbg.jpg')}}) left
       <div>
         <span>栏目管理</span>  
         @foreach($arr as $key => $val)
-        <a href="/month13/book/public/back/{{$val['url']}}" target="mainFrame" onFocus="this.blur()">{{$val['column_name']}}</a>
+        <a href="/month13/book/public/{{$val['url']}}" target="mainFrame" onFocus="this.blur()">{{$val['column_name']}}</a>
         @endforeach
       </div>
       <div>

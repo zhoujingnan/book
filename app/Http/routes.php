@@ -26,4 +26,5 @@ Route::any('back/login','Back\BackLoginController@index');
 Route::any('back/logindo','Back\BackLoginController@logindo');
 Route::any('back/getCaptcha','Back\BackLoginController@getCaptcha');
 //图书管理
-Route::any("back/bookindex","Back\BackBookController@index");
+Route::any("backbook/index","Back\BackBookController@index");
+Route::get("backbook/ajaxPage","Back\BackBookController@ajaxPage");
