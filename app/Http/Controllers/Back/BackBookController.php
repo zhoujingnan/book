@@ -35,6 +35,6 @@ class BackBookController extends CommonController{
 		//偏移量
 		$offset=($page-1)*5;
 		$arr=json_decode(json_encode($obj->join('book',"cate","t1.cate_id =t2.cate_id",$where,$offset,$pagesize,"t1.order")),true);
-		return view("back.book_index",['arr'=>$arr,'page'=>$page,'totalpage'=>$totalpage,'count'=>$count]);		
+		return view("back.book_index",['arr'=>$arr,'page'=>$page,'totalpage'=>$totalpage,'count'=>$count]);	
 	}
 }
