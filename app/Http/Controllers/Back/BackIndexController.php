@@ -37,8 +37,8 @@ class BackIndexController extends CommonController{
 		//}else if($h>=18 && $h<24){
 		//	$a_data['h'] = "晚上好";
 		//}
-		$n_data = DB::select('select * from `net`');
-		$data = json_decode(json_encode($n_data), true)[0];
+		$n_data = DB::select('SELECT * FROM `net`');
+		$data = json_decode(json_encode($n_data),true)[0];
 		//var_dump($data);
 		if(empty($data)){
 			return view("back.main");

@@ -29,7 +29,6 @@ Route::any('back/getCaptcha','Back\BackLoginController@getCaptcha');
 Route::any("backbook/index","Back\BackBookController@index");
 Route::get("backbook/ajaxPage","Back\BackBookController@ajaxPage");
 Route::get("backbook/piDel","Back\BackBookController@piDel");
-<<<<<<< HEAD
 
 
 //网站管理
@@ -38,7 +37,6 @@ Route::get("backnet/index","Back\BackNetController@index");
 Route::get("backnet/quit","Back\BackNetController@quit");
 Route::post("backnet/add_do","Back\BackNetController@add_do");
 Route::get("backnet/getimage/{img}","Back\BackNetController@getimage");
-=======
 Route::get("backbook/del","Back\BackBookController@del");
 Route::get("backbook/add","Back\BackBookController@add");
 Route::post("backbook/addDo","Back\BackBookController@addDo");
@@ -71,4 +69,3 @@ Route::post("backcate/upDo","Back\BackCateController@upDo");
 Route::get("backcate/uniqueTitle","Back\BackCateController@uniqueTitle");
 //借阅管理
 Route::get("backborrow/index","Back\BackBorrowController@index");
->>>>>>> 06bb7b31e2c1f8ff3a0e3fff3a4a8525979fc949
