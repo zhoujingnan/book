@@ -285,7 +285,7 @@ class Str
      * Replace the first occurrence of a given value in the string.
      *
      * @param  string  $search
-     * @param  string  $replace
+     * @param  string  $rea
      * @param  string  $subject
      * @return string
      */
