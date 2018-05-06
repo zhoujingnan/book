@@ -16,9 +16,9 @@
       <tr>
         <td align="left" valign="bottom" id="header-name">侯马经济开发区</td>
         <td align="right" valign="top" id="header-right">
-        	<a href="index.html" target="topFrame" onFocus="this.blur()" class="admin-out">注销</a>
-            <a href="index.html" target="top" onFocus="this.blur()" class="admin-home">管理首页</a>
-        	<a href="index.html" target="_blank" onFocus="this.blur()" class="admin-index">网站首页</a>       	
+        	<a href="{{url('backnet/quit')}}" target="topFrame" onFocus="this.blur()" class="admin-out">注销</a>
+            <a href="{{url('backnet/index')}}" target="mainFrame" onFocus="this.blur()" class="admin-home">管理首页</a>
+        	<a href="{{url('back/index')}}" target="mainFrame" onFocus="this.blur()" class="admin-index">网站首页</a>       	
             <span>
 <!-- 日历 -->
 <SCRIPT type=text/javascript src="{{asset('js/clock.js')}}"></SCRIPT>

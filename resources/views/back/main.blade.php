@@ -26,7 +26,7 @@ div.main-order{ line-height:30px; padding:10px 0 0 0;}
 <table width="99%" border="0" cellspacing="0" cellpadding="0" id="main">
   <tr>
     <td colspan="2" align="left" valign="top">
-    <span class="time"><strong>上午好！admin</strong><u>[超级管理员]</u></span>
+    <span class="time"><strong>上午好！{{$a_data['u_name']}}</strong><u>[超级管理员]</u></span>
     <div class="top"><span class="left">您上次的登灵时间：2012-05-03  12:00   登录IP：127.0.0.1 &nbsp;&nbsp;&nbsp;&nbsp;如非您本人操作，请及时</span><a href="index.html" target="mainFrame" onFocus="this.blur()">更改密码</a></div>
     <div class="sec">这是您第<span class="num">80</span>次,登录！</div>
     </td>
@@ -35,21 +35,19 @@ div.main-order{ line-height:30px; padding:10px 0 0 0;}
     <td align="left" valign="top" width="50%">
     <div class="main-tit">网站信息</div>
     <div class="main-con">
-    会员注册：开启<br/>
-会员投稿：开启<br/>
-管理员个数：<font color="#538ec6"><strong>6</strong></font> 人<br/>
-登陆者IP：192.168.1.156<br/>
-程序编码：UTF-8<br/>
+    网站标题：{{$arr['net_title']}}<br/>
+	网站URL：{{$arr['net_url']}}<br/>
+	网站描述：{{$arr['net_desc']}}<br/>
+	网站logo：<img src="{{asset($arr['net_logo'])}}" width="100"><br/>
     </div>
     </td>
     <td align="left" valign="top" width="49%">
-    <div class="main-tit">服务器信息</div>
+    <div class="main-tit"></div>
     <div class="main-con">
-服务器软件：Apache/2.2.6 (Win32) PHP/5.2.5<br/>
-PHP版本：5.2.5<br/>
-MYSQL版本：5.0.45-community-nt<br/>
-魔术引用：开启 (建议开启)<br/>
-使用域名：192.168.1.124 <br/>
+	网站关键字：{{$arr['net_key']}}<br/>
+	备案号：{{$arr['net_bei']}}<br/>
+	联系人QQ：{{$arr['net_qq']}}<br/>
+	小程序二维码：<img src="{{asset($arr['net_er'])}}" width="100"><br/>
     </div>
     </td>
   </tr>

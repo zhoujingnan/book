@@ -29,3 +29,11 @@ Route::any('back/getCaptcha','Back\BackLoginController@getCaptcha');
 Route::any("backbook/index","Back\BackBookController@index");
 Route::get("backbook/ajaxPage","Back\BackBookController@ajaxPage");
 Route::get("backbook/piDel","Back\BackBookController@piDel");
+
+
+//网站管理
+Route::get("backnet/add","Back\BackNetController@add");
+Route::get("backnet/index","Back\BackNetController@index");
+Route::get("backnet/quit","Back\BackNetController@quit");
+Route::post("backnet/add_do","Back\BackNetController@add_do");
+Route::get("backnet/getimage/{img}","Back\BackNetController@getimage");
