@@ -34,7 +34,7 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
 <table width="99%" border="0" cellspacing="0" cellpadding="0" id="searchmain">
   <thead>
   <tr>
-    <td width="99%" align="left" valign="top">您的位置：图书管理</td>
+    <td width="99%" align="left" valign="top">您的位置：积分管理管理</td>
   </tr>
   <tr>
     <td align="left" valign="top">
@@ -42,12 +42,12 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
   		<tr>
    		 <td width="90%" align="left" valign="middle">
 	         <form method="post" action="">
-	         <span>管理员：</span>
+	         <span>积分名：</span>
 	         <input type="text" name="key" value="" class="text-word">
 	         <input name="" type="button" value="查询" class="text-but">
 	         </form>
          </td>
-  		  <td width="10%" align="center" valign="middle" style="text-align:right; width:150px;"><a href="{{url('backbook/add')}}" target="mainFrame" onFocus="this.blur()" class="add">新增图书</a></td>
+  		  <td width="10%" align="center" valign="middle" style="text-align:right; width:150px;"><a href="{{url('backsocre/add')}}" target="mainFrame" onFocus="this.blur()" class="add">新增积分类型</a></td>
   		</tr>
 	</table>
     </td>
@@ -61,34 +61,26 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
       <tr>
         <th align="center" valign="middle" class="borderright"><span class="pidel">批删</span></th>
         <th align="center" valign="middle" class="borderright">编号</th>
-        <th align="center" valign="middle" class="borderright">图书名称</th>
-        <th align="center" valign="middle" class="borderright">数量</th>
-        <th align="center" valign="middle" class="borderright">分类</th>
-        <th align="center" valign="middle" class="borderright">简介</th>
-        <th align="center" valign="middle" class="borderright">售价</th>
-        <th align="center" valign="middle" class="borderright">借价</th>
-        <th align="center" valign="middle" class="borderright">添加时间</th>
+        <th align="center" valign="middle" class="borderright">积分名称</th>
+        <th align="center" valign="middle" class="borderright">金额</th>
+        <th align="center" valign="middle" class="borderright">积分</th>
         <th align="center" valign="middle" class="borderright">排序</th>
         <th align="center" valign="middle">操作</th>
       </tr>
       @foreach($arr as $key =>$val)
       <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
         <td align="center" valign="middle" class="borderright borderbottom">
-            <input type="checkbox" name="box" value="{{$val['b_id']}}">
+            <input type="checkbox" name="box" value="{{$val['s_id']}}">
         </td>
-        <td align="center" valign="middle" class="borderright borderbottom">{{$val['b_id']}}</td>
-        <td align="center" valign="middle" class="borderright borderbottom">{{$val['b_title']}}</td>
-        <td align="center" valign="middle" class="borderright borderbottom">{{$val['num']}}</td>
-        <td align="center" valign="middle" class="borderright borderbottom">{{$val['cate_name']}}</td>
-        <td align="center" valign="middle" class="borderright borderbottom">{{$val['desc']}}</td>
-        <td align="center" valign="middle" class="borderright borderbottom">{{$val['s_price']}}</td>
-        <td align="center" valign="middle" class="borderright borderbottom">{{$val['b_price']}}</td>
-        <td align="center" valign="middle" class="borderright borderbottom">{{date("Y-m-d H:i:s",$val['addtime'])}}</td>
+        <td align="center" valign="middle" class="borderright borderbottom">{{$val['s_id']}}</td>
+        <td align="center" valign="middle" class="borderright borderbottom">{{$val['s_title']}}</td>
+        <td align="center" valign="middle" class="borderright borderbottom">{{$val['s_money']}}</td>
+        <td align="center" valign="middle" class="borderright borderbottom">{{$val['s_socre']}}</td>
         <td align="center" valign="middle" class="borderright borderbottom">{{$val['order']}}</td>
         <td align="center" valign="middle" class="borderbottom">
-          <a href="{{url('backbook/up',['b_id'=>$val['b_id']])}}" target="mainFrame" onFocus="this.blur()" class="add" title="up" b_id={{$val['b_id']}}>编辑</a>
+          <a href="{{url('backsocre/up',['s_id'=>$val['s_id']])}}" target="mainFrame" onFocus="this.blur()" class="add" title="up" s_id={{$val['s_id']}}>编辑</a>
           <span class="gray">&nbsp;|&nbsp;</span>
-          <a href="javascript:void(0)" target="mainFrame" onFocus="this.blur()" class="add" title="del" b_id="{{$val['b_id']}}">删除</a></td>
+          <a href="javascript:void(0)" target="mainFrame" onFocus="this.blur()" class="add" title="del" s_id="{{$val['s_id']}}">删除</a></td>
       </tr>
       @endforeach
     </table></td>
@@ -138,17 +130,17 @@ $(function(){
   })
   //单删
   $(document).on("click","[title='del']",function(){
-    var b_id=$(this).attr("b_id");
+    var s_id=$(this).attr("s_id");
     var page=parseInt($("[name='page']").val());
     var key=$("[name='key']").val();
     $.ajax({
       type:'get',
-      url:"<?php echo url('backbook/del');?>",
-      data:{b_id:b_id},
+      url:"<?php echo url('backsocre/del');?>",
+      data:{s_id:s_id},
       success:function(msg){
-        if(msg==1)
+        if(msg)
         {
-          ajaxPage(page);
+          ajaxPage(page,key);
         }
       }
     })
@@ -167,7 +159,7 @@ $(function(){
           //发送ajax
           $.ajax({
             type:'get',
-            url:"<?php echo url('backbook/piDel')?>",
+            url:"<?php echo url('backsocre/piDel')?>",
             data:{id:id_arr},
             success:function(msg){
               console.log(msg)
@@ -186,7 +178,7 @@ $(function(){
     var key=$("[name='key']").val();
       $.ajax({
         type:'get',
-        url:"<?php echo url('backbook/ajaxPage')?>",
+        url:"<?php echo url('backsocre/ajaxPage')?>",
         data:{page:p,key:key},
         success:function(arr){
             // console.log(arr)
