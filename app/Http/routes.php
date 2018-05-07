@@ -71,16 +71,36 @@ Route::post("backcate/upDo","Back\BackCateController@upDo");
 Route::get("backcate/uniqueTitle","Back\BackCateController@uniqueTitle");
 //借阅管理
 Route::get("backborrow/index","Back\BackBorrowController@index");
+<<<<<<< HEAD
 
+=======
+Route::get("backborrow/ajaxPage","Back\BackBorrowController@ajaxPage");
+>>>>>>> 2080ebc213e85eed222c5132764b820dbdd620ec
 
 
 
 
 //充值日志
 Route::any("backpay/index","Back\BackPayController@index");
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+
+
+
+=======
+=======
+>>>>>>> 2080ebc213e85eed222c5132764b820dbdd620ec
 Route::get("backborrow/ajaxPage","Back\BackBorrowController@ajaxPage");
 //损坏度
 Route::get("backbad/index","Back\BackBadController@index");
 Route::get("backbad/ajaxPage","Back\BackBadController@ajaxPage");
 Route::get("backbad/check/{id}/{m_id}","Back\BackBadController@check");
 Route::post("backbad/checkDo","Back\BackBadController@checkDo");
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 91eaa5699959be547b2e2bdd05f750146a07ff38
+>>>>>>> dec023796ae1944771522ffba7f23c9a75185d0c
+>>>>>>> 41ca263109d1c7f738b34083111818a02fb1edef
+>>>>>>> 2080ebc213e85eed222c5132764b820dbdd620ec
