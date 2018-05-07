@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Back;
 use App\Http\Controllers\Back\CommonControllers;
 use App\Back\BackNetModel;
 use DB;
+use Session;
 use Illuminate\Support\Facades\Input;
 class BackNetController extends CommonController{
 

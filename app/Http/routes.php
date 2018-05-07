@@ -71,6 +71,7 @@ Route::post("backcate/upDo","Back\BackCateController@upDo");
 Route::get("backcate/uniqueTitle","Back\BackCateController@uniqueTitle");
 //借阅管理
 Route::get("backborrow/index","Back\BackBorrowController@index");
+<<<<<<< HEAD
 
 
 
@@ -78,3 +79,6 @@ Route::get("backborrow/index","Back\BackBorrowController@index");
 
 //充值日志
 Route::any("backpay/index","Back\BackPayController@index");
+=======
+Route::get("backborrow/ajaxPage","Back\BackBorrowController@ajaxPage");
+>>>>>>> 91eaa5699959be547b2e2bdd05f750146a07ff38

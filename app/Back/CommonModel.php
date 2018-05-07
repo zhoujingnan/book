@@ -41,6 +41,9 @@ class CommonModel extends Model{
 		$str=rtrim($str,',');
 		return DB::update("UPDATE $tableName SET $str WHERE $where");
 	}
+	public function sql($sql){
+		return DB::select($sql);
+	}
 }
 
 
