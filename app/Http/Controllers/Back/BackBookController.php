@@ -57,6 +57,7 @@ class BackBookController extends CommonController{
 	public function addDo(){
 		$arr=$_POST;
 		unset($arr['_token']);
+		$arr['addtime']=time();
 		$obj=new BackBookModel();
 		$res=$obj->add("book",$arr);
 		if($res){

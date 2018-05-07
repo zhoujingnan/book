@@ -69,3 +69,4 @@ Route::post("backcate/upDo","Back\BackCateController@upDo");
 Route::get("backcate/uniqueTitle","Back\BackCateController@uniqueTitle");
 //借阅管理
 Route::get("backborrow/index","Back\BackBorrowController@index");
+Route::get("backborrow/ajaxPage","Back\BackBorrowController@ajaxPage");
