@@ -5,6 +5,9 @@ use App\Back\BackBorrowModel;
 class BackBorrowController extends CommonController{
 	public function index(){
 		$obj=new BackBorrowModel();
+<<<<<<< HEAD
+		print_r($obj);
+=======
 		//条件
 		$where="1=1";		
 		$sql="SELECT * FROM borrow INNER JOIN member ON borrow.m_id =member.m_id INNER JOIN book on borrow.b_id =book.b_id WHERE $where";
@@ -64,5 +67,6 @@ class BackBorrowController extends CommonController{
 		$sql="SELECT * FROM borrow INNER JOIN member ON borrow.m_id =member.m_id INNER JOIN book on borrow.b_id =book.b_id WHERE $where LIMIT $offset,$pagesize";
 		$data=json_decode(json_encode($obj->sql($sql)),true);
 		return view("back.borrow_ajaxPage",['arr'=>$data,'count'=>$count,'page'=>$page,'totalpage'=>$totalpage]);
+>>>>>>> 91eaa5699959be547b2e2bdd05f750146a07ff38
 	}
 }

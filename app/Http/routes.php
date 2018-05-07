@@ -29,20 +29,22 @@ Route::any('back/getCaptcha','Back\BackLoginController@getCaptcha');
 Route::any("backbook/index","Back\BackBookController@index");
 Route::get("backbook/ajaxPage","Back\BackBookController@ajaxPage");
 Route::get("backbook/piDel","Back\BackBookController@piDel");
-
-
-//网站管理
-Route::get("backnet/add","Back\BackNetController@add");
-Route::get("backnet/index","Back\BackNetController@index");
-Route::get("backnet/quit","Back\BackNetController@quit");
-Route::post("backnet/add_do","Back\BackNetController@add_do");
-Route::get("backnet/getimage/{img}","Back\BackNetController@getimage");
 Route::get("backbook/del","Back\BackBookController@del");
 Route::get("backbook/add","Back\BackBookController@add");
 Route::post("backbook/addDo","Back\BackBookController@addDo");
 Route::get("backbook/up/{b_id}","Back\BackBookController@up");
 Route::post("backbook/upDo","Back\BackBookController@upDo");
 Route::get("backbook/uniqueTitle","Back\BackBookController@uniqueTitle");
+
+//网站管理
+Route::get("backnet/add","Back\BackNetController@add");
+Route::get("backnet/index","Back\BackNetController@index");
+Route::get("backnet/quit","Back\BackNetController@quit");
+Route::get("backnet/update","Back\BackNetController@update");
+Route::post("backnet/add_do","Back\BackNetController@add_do");
+Route::post("backnet/up_do","Back\BackNetController@up_do");
+Route::get("backnet/getimage/{img}","Back\BackNetController@getimage");
+
 //会员管理
 Route::any("backmember/index","Back\BackMemberController@index");
 Route::get("backmember/ajaxPage","Back\BackMemberController@ajaxPage");
@@ -69,9 +71,22 @@ Route::post("backcate/upDo","Back\BackCateController@upDo");
 Route::get("backcate/uniqueTitle","Back\BackCateController@uniqueTitle");
 //借阅管理
 Route::get("backborrow/index","Back\BackBorrowController@index");
+<<<<<<< HEAD
+
+
+
+
+
+//充值日志
+Route::any("backpay/index","Back\BackPayController@index");
+=======
 Route::get("backborrow/ajaxPage","Back\BackBorrowController@ajaxPage");
+<<<<<<< HEAD
 //损坏度
 Route::get("backbad/index","Back\BackBadController@index");
 Route::get("backbad/ajaxPage","Back\BackBadController@ajaxPage");
 Route::get("backbad/check/{id}/{m_id}","Back\BackBadController@check");
 Route::post("backbad/checkDo","Back\BackBadController@checkDo");
+=======
+>>>>>>> 91eaa5699959be547b2e2bdd05f750146a07ff38
+>>>>>>> dec023796ae1944771522ffba7f23c9a75185d0c
