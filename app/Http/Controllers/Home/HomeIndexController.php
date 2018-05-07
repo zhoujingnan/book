@@ -38,6 +38,34 @@ class HomeIndexController extends Controller{
 		// print_r($book_data);die;
 		return view("home.index",['arr'=>$arr,'book_data'=>$book_data,'member'=>$member]);
 	}
+	//添加借阅量
+	public function addRead(){
+		$b_id=$_GET['b_id'];
+		$num=$_GET['num'];
+		$type=$_GET['type'];
+		$m_id=Session::get("member_id");
+		
+		if($num==0){
+			echo 0;die;//库存为零
+		}
+		$data['m_id']=$m_id;
+		$data['b_id']=$b_id;
+		$data['addtime']=time();
+		$data['type']=$type;
+		$obj=new CommonModel();
+		if($type==0){
+			$res=$obj->add("borrow",$data);
+		}else
+		{
+
+		}
+		
+		if($res){
+			echo 1;die;//成功
+		}
+	}
+
+
 	public function about(){
 		return view("home.about");
 	}
@@ -50,4 +78,5 @@ class HomeIndexController extends Controller{
 	public function comment(){
 		return view("home.comment");
 	}
+
 }

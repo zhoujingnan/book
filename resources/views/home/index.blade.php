@@ -7,10 +7,11 @@
 	</head>
 
 	<link href="plugin/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="css/common.css" />
+	<link rel="stylesheet" type="text/css" href="{{asset('css/common.css')}}" />
 	<link href="logo.ico" rel="shortcut icon" />
-	<script src="plugin/jquery.min.js"></script>
-	<script src="plugin/bootstrap/js/bootstrap.min.js"></script>
+	<script src="{{asset('plugin/jquery.min.js')}}"></script>
+	<script src="{{asset('plugin/bootstrap/js/bootstrap.min.js')}}"></script>
+	<script src="{{asset('jquery-1.8.3.js')}}"></script>
 	<!--<script type="text/javascript" src="plugin/jquery.page.js"></script>-->
 	<!--<script src="js/common.js"></script>-->
 	<!--<script src="js/snowy.js"></script>-->
@@ -144,26 +145,44 @@
 					<i class="glyphicon glyphicon-time"></i>{{date("Y-m-d",$val['addtime'])}}
 				</span>
 				<?php if($member==''){ ?>
-					<span class="count"><button>借书</button></span>
-					<span class="count"><button>买书</button></span>
+					<span class="count">
+						<button class="aa" num="{{$val['num']}}" b_id="{{$val['b_id']}}">借书</button>
+					</span>
+					<span class="count">
+						<button class="aa" num="{{$val['num']}}" b_id="{{$val['b_id']}}">买书</button>
+					</span>
 				<?php }else{ ?>
 					<?php if($val['num']==0){ ?>
 					<span>库存为零</span>
 					<?php }else{ ?>
 						<?php if(isset($val['type'])){ ?>
 							<?php if($val['type']==0){ ?>
-								<span class="count"><button>还书</button></span>
-								<span class="count"><button>买书</button></span>
+								<span class="count">
+									<button class="aa" num="{{$val['num']}}" b_id="{{$val['b_id']}}">还书</button>
+								</span>
+								<span class="count">
+									<button class="aa" num="{{$val['num']}}" b_id="{{$val['b_id']}}">买书</button>
+								</span>
 							<?php }elseif ($val['type']==1) { ?>	
 								<span class="count">还书待审核</span>
-								<span class="count"><button>买书</button></span>
+								<span class="count">
+									<button class="aa" num="{{$val['num']}}" b_id="{{$val['b_id']}}">买书</button>
+								</span>
 							<?php }else{ ?>			
-								<span class="count"><button>借书</button></span>
-								<span class="count"><button>买书</button></span>	
+								<span class="count">
+									<button class="aa" num="{{$val['num']}}" b_id="{{$val['b_id']}}">借书</button>
+								</span>
+								<span class="count">
+									<button class="aa" num="{{$val['num']}}" b_id="{{$val['b_id']}}">买书</button>
+								</span>	
 							<?php } ?>	
 						<?php }else{ ?>
-							<span class="count"><button>借书</button></span>
-							<span class="count"><button>买书</button></span>	
+							<span class="count">
+								<button class="aa" num="{{$val['num']}}" b_id="{{$val['b_id']}}">借书</button>
+							</span>
+							<span class="count">
+								<button class="aa" num="{{$val['num']}}" b_id="{{$val['b_id']}}">买书</button>
+							</span>	
 						<?php } ?>
 					<?php } ?>				
 				<?php } ?>
@@ -172,6 +191,37 @@
 	</div>
 </div>
 @endforeach
+<script>
+$(function(){
+	$(document).on("click",".aa",function(){
+		var b_id=$(this).attr("b_id");
+		var num=$(this).attr("num");
+		var html=$(this).html();
+		if(html=="还书"){
+			type=1;
+		}else if(html=="借书")
+		{
+			type=0;
+		}else if(html=="买书")
+		{
+			type=2;
+		}
+		console.log(b_id);
+		console.log(num);
+		$.ajax({
+			type:'get',
+			url:"<?php echo url('homeindex/addRead')?>",
+			data:{b_id:b_id,num:num,type:type},
+			success:function(msg){
+				console.log(msg);
+				if(msg==1){
+					history.go(0)
+				}
+			}
+		})
+	})
+})
+</script>
 <!--文章列表结束-->
 							</div>
 						</div>
