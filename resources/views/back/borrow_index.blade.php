@@ -84,10 +84,17 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
         <td align="center" valign="middle" class="borderright borderbottom">{{$val['m_name']}}</td>
         <td align="center" valign="middle" class="borderright borderbottom">{{$val['b_title']}}</td>
         <td align="center" valign="middle" class="borderright borderbottom">
+<<<<<<< HEAD
+        	@if($val['type']==1) 已借走
+    			@elseif($val['type']==2) 已买走
+    			@elseif($val['type']==3) 已还书
+    			@endif
+=======
         	@if($val['type']==0) 已借走
 			@elseif($val['type']==2) 已买走
 			@elseif($val['type']==3) 已还书
 			@endif
+>>>>>>> cd22d2dd2cc6c66c7bdfc5baf9d0e527628f3b08
         </td>
         <td align="center" valign="middle" class="borderright borderbottom">{{date("Y-m-d H:i:s",$val['addtime'])}}</td>
         <td align="center" valign="middle" class="borderright borderbottom">

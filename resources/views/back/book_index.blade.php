@@ -41,11 +41,7 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
     <table width="100%" border="0" cellspacing="0" cellpadding="0" id="search">
   		<tr>
    		 <td width="90%" align="left" valign="middle">
-	         <form method="post" action="">
-	         <span>管理员：</span>
-	         <input type="text" name="key" value="" class="text-word">
-	         <input name="" type="button" value="查询" class="text-but">
-	         </form>
+	         
          </td>
   		  <td width="10%" align="center" valign="middle" style="text-align:right; width:150px;"><a href="{{url('backbook/add')}}" target="mainFrame" onFocus="this.blur()" class="add">新增图书</a></td>
   		</tr>
