@@ -38,22 +38,22 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
   <tr>
     <td align="left" valign="top">
   <table width="100%" border="0" cellspacing="0" cellpadding="0" id="search">
-    <form method="post" action="{{url('backpay/index')}}">
+    <form method="get" action="{{url('backpay/index')}}">
       <input type="hidden" name="_token" value="{{csrf_token()}}">
   		<tr>
         <select name="p_type">
-          <option value="">选择支付方式</option>
-          <option value="1">支付宝支付</option>
-          <option value="2">微信支付</option>
-          <option value="3">银联支付</option>
+          <option value="">查询支付方式</option>
+          <option value="1" @if($z_data['p_type']==1) selected @endif >支付宝支付</option>
+          <option value="2" @if($z_data['p_type']==2) selected @endif >微信支付</option>
+          <option value="3" @if($z_data['p_type']==3) selected @endif >银联支付</option>
         </select> 
         <select name="p_time">
           <option value="">查询支付时间</option>
-          <option value="1">一天内</option>
-          <option value="2">一周内</option>
-          <option value="3">一月内</option>
+          <option value="1" @if($z_data['p_time']==1) selected @endif >一天内</option>
+          <option value="2" @if($z_data['p_time']==2) selected @endif >一周内</option>
+          <option value="3" @if($z_data['p_time']==3) selected @endif >一月内</option>
         </select> 
-        <input type="text" name="u_name" placeholder="查询会员名称" size="9"> 
+        <input type="text" name="u_name" placeholder="查询会员名称" value="{{$z_data['u_name']}}" size="9"> 
         <input type="submit" name="" value="查询"> 
       </tr>
       </form>
@@ -98,6 +98,13 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
       @endforeach
 
 	 </tbody>
+    <tr>
+      <td colspan="4" align="center">
+        <a href="?page=1&p_type={{$z_data['p_type']}}&p_time={{$z_data['p_time']}}&u_name={{$z_data['u_name']}}">首页</a>
+        <a href="?page={{$z_data['page']-1}}&p_type={{$z_data['p_type']}}&p_time={{$z_data['p_time']}}&u_name={{$z_data['u_name']}}">上一页</a>
+        <a href="?page={{$z_data['page']+1}}&p_type={{$z_data['p_type']}}&p_time={{$z_data['p_time']}}&u_name={{$z_data['u_name']}}">下一页</a>
+      </td>
+    </tr>
     </table></td>
     </tr>
   <tr>
