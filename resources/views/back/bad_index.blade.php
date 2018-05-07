@@ -39,7 +39,7 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
 <table width="99%" border="0" cellspacing="0" cellpadding="0" id="searchmain">
   <thead>
   <tr>
-    <td width="99%" align="left" valign="top">您的位置：借阅管理</td>
+    <td width="99%" align="left" valign="top">您的位置：还书审核管理</td>
   </tr>
   <tr>
     <td align="left" valign="top">
@@ -75,8 +75,8 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
         <th align="center" valign="middle" class="borderright">会员名</th>
         <th align="center" valign="middle" class="borderright">图书名</th>
         <th align="center" valign="middle" class="borderright">类型</th>
-        <th align="center" valign="middle" class="borderright">借阅/购买时间</th>
-        <th align="center" valign="middle" class="borderright">借阅归还时间</th>
+        <th align="center" valign="middle" class="borderright">借阅时间</th>
+        <th align="center" valign="middle" class="borderright">操作</th>
       </tr>
       @foreach($arr as $key =>$val)
       <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
@@ -84,17 +84,14 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
         <td align="center" valign="middle" class="borderright borderbottom">{{$val['m_name']}}</td>
         <td align="center" valign="middle" class="borderright borderbottom">{{$val['b_title']}}</td>
         <td align="center" valign="middle" class="borderright borderbottom">
-        	@if($val['type']==1) 已借走
-			@elseif($val['type']==2) 已买走
-			@elseif($val['type']==3) 已还书
-			@endif
+			申请还书
         </td>
         <td align="center" valign="middle" class="borderright borderbottom">{{date("Y-m-d H:i:s",$val['addtime'])}}</td>
-        <td align="center" valign="middle" class="borderright borderbottom">
-			@if($val['endtime']=='') 
-			@else {{date("Y-m-d H:i:s",$val['endtime'])}}
-			@endif
-        </td>
+         <td align="center" valign="middle" class="borderright borderbottom">
+         	<span id="{{$val['id']}}" m_id="{{$val['m_id']}}" class="check">
+         	<a href="{{url('backbad/check',['id'=>$val['id'],'m_id'=>$val['m_id']])}}">审核</a>	
+         </span>
+         </td>
       </tr>
       @endforeach
     </table></td>
@@ -150,7 +147,7 @@ $(function(){
     var msg=$("[name='msg']").val();
       $.ajax({
         type:'get',
-        url:"<?php echo url('backborrow/ajaxPage')?>",
+        url:"<?php echo url('backbad/ajaxPage')?>",
         data:{page:p,key:key,msg:msg},
         success:function(arr){
             // console.log(arr)
@@ -159,6 +156,14 @@ $(function(){
           }
       })
   }
+  //审核
+  $(document).on("click",".check",function(){
+  	var id=$(this).attr("id");
+  	var m_id=$(this).attr("m_id");
+  	console.log(id);
+  	console.log(m_id);
+  	location.href="{{url('backbad/check',['id'=>"+id+",'m_id'=>"+m_id+"])}}";
+  })
 
 })
 
