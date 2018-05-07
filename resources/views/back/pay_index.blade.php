@@ -33,12 +33,30 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
 <!--main_top-->
 <table width="99%" border="0" cellspacing="0" cellpadding="0" id="searchmain">
   <tr>
-    <td width="99%" align="left" valign="top">您的位置：网站管理</td>
+    <td width="99%" align="left" valign="top">您的位置：充值日志</td>
   </tr>
   <tr>
     <td align="left" valign="top">
-    <table width="100%" border="0" cellspacing="0" cellpadding="0" id="search">
-  		
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" id="search">
+    <form method="post" action="{{url('backpay/index')}}">
+      <input type="hidden" name="_token" value="{{csrf_token()}}">
+  		<tr>
+        <select name="p_type">
+          <option value="">选择支付方式</option>
+          <option value="1">支付宝支付</option>
+          <option value="2">微信支付</option>
+          <option value="3">银联支付</option>
+        </select> 
+        <select name="p_time">
+          <option value="">查询支付时间</option>
+          <option value="1">一天内</option>
+          <option value="2">一周内</option>
+          <option value="3">一月内</option>
+        </select> 
+        <input type="text" name="u_name" placeholder="查询会员名称" size="9"> 
+        <input type="submit" name="" value="查询"> 
+      </tr>
+      </form>
 	</table>
     </td>
   </tr>
@@ -48,49 +66,36 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
     <table width="100%" border="0" cellspacing="0" cellpadding="0" id="main-tab">
 	<thead>
       <tr>
-        <th align="center" valign="middle" class="borderright">网站标题</th>
-        <th align="center" valign="middle" class="borderright">网站关键字</th>
-        <th align="center" valign="middle" class="borderright">网站URL</th>
-        <th align="center" valign="middle" class="borderright">网站描述</th>
-        <th align="center" valign="middle" class="borderright">网站logo</th>
-        <th align="center" valign="middle" class="borderright">备案号</th>
-        <th align="center" valign="middle" class="borderright">联系人QQ</th>
-        <th align="center" valign="middle" class="borderright">小程序二维码</th>
-        <th align="center" valign="middle">操作</th>
+        <th align="center" valign="middle" class="borderright">会员名称</th>
+        <th align="center" valign="middle" class="borderright">支付方式</th>
+        <th align="center" valign="middle" class="borderright">支付金额</th>
+        <th align="center" valign="middle" class="borderright">充值时间</th>
       </tr>
 	 </thead>
 	 <tbody id="to">
+    @foreach($arr as $k => $v)
       <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
         <td align="center" valign="middle" class="borderright borderbottom">
-			{{$arr['net_title']}}
-		</td>
+    			{{$v['m_name']}}
+    		</td>
         <td align="center" valign="middle" class="borderright borderbottom">
-			{{$arr['net_key']}}
-		</td>
-		<td align="center" valign="middle" class="borderright borderbottom">
-			{{$arr['net_url']}}
-		</td>
-		<td align="center" valign="middle" class="borderright borderbottom">
-			{{$arr['net_desc']}}
-		</td>
-		<td align="center" valign="middle" class="borderright borderbottom">
-			<img src="{{asset($arr['net_logo'])}}" width="100">
-		</td>
-		<td align="center" valign="middle" class="borderright borderbottom">
-			{{$arr['net_bei']}}
-		</td>
-		<td align="center" valign="middle" class="borderright borderbottom">
-			{{$arr['net_qq']}}
-		</td>
-		<td align="center" valign="middle" class="borderright borderbottom">
-			<img src="{{asset($arr['net_er'])}}" width="100">
-		</td>
-		
-        <td align="center" valign="middle" class="borderbottom">
-			<a href="{{url('backnet/update')}}" target="mainFrame" onFocus="this.blur()" class="add">编辑</a>
-		</td>
+    			@if($v['type']==1)
+          支付宝支付
+          @elseif($v['type']==2)
+          微信支付
+          @elseif($v['type']==3)
+          银联支付
+          @endif
+    		</td>
+    		<td align="center" valign="middle" class="borderright borderbottom">
+    			{{$v['money']}}
+    		</td>
+    		<td align="center" valign="middle" class="borderright borderbottom">
+    			{{date("Y-m-d H:i:s",$v['addtime'])}}
+    		</td>
+    		
       </tr>
-
+      @endforeach
 
 	 </tbody>
     </table></td>

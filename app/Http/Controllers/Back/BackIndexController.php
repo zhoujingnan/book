@@ -6,7 +6,13 @@ use Session;
 use DB;
 class BackIndexController extends CommonController{
 	public function index(){
-		return view("back.index");
+		$data = DB::select("select * from net");
+		if(empty($data)){
+			return redirect('backnet/add');
+		}else{
+			return view("back.index");
+		}
+		// return view("back.index");
 	}
 	public function top(){
 		return view("back.top");
