@@ -70,3 +70,8 @@ Route::get("backcate/uniqueTitle","Back\BackCateController@uniqueTitle");
 //借阅管理
 Route::get("backborrow/index","Back\BackBorrowController@index");
 Route::get("backborrow/ajaxPage","Back\BackBorrowController@ajaxPage");
+//损坏度
+Route::get("backbad/index","Back\BackBadController@index");
+Route::get("backbad/ajaxPage","Back\BackBadController@ajaxPage");
+Route::get("backbad/check/{id}/{m_id}","Back\BackBadController@check");
+Route::post("backbad/checkDo","Back\BackBadController@checkDo");
