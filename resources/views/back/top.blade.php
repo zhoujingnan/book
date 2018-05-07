@@ -18,11 +18,12 @@
         <td align="right" valign="top" id="header-right">
         	<a href="{{url('backnet/quit')}}" target="topFrame" onFocus="this.blur()" class="admin-out">注销</a>
             <a href="{{url('backnet/index')}}" target="mainFrame" onFocus="this.blur()" class="admin-home">管理首页</a>
-        	<a href="{{url('back/index')}}" target="mainFrame" onFocus="this.blur()" class="admin-index">网站首页</a>       	
+        	<a href="{{url('back/main')}}" target="mainFrame" onFocus="this.blur()" class="admin-index">网站首页</a>       	
             <span>
 <!-- 日历 -->
-<SCRIPT type=text/javascript src="{{asset('js/clock.js')}}"></SCRIPT>
-<SCRIPT type=text/javascript>showcal();</SCRIPT>
+<!-- <SCRIPT type=text/javascript src="{{asset('js/clock.js')}}"></SCRIPT> -->
+<p>{{$str}}</p>
+<!-- <SCRIPT type=text/javascript>showcal();</SCRIPT> -->
             </span>
         </td>
       </tr>

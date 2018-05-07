@@ -84,7 +84,7 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
         <td align="center" valign="middle" class="borderright borderbottom">{{$val['m_name']}}</td>
         <td align="center" valign="middle" class="borderright borderbottom">{{$val['b_title']}}</td>
         <td align="center" valign="middle" class="borderright borderbottom">
-        	@if($val['type']==1) 已借走
+        	@if($val['type']==0) 已借走
 			@elseif($val['type']==2) 已买走
 			@elseif($val['type']==3) 已还书
 			@endif
