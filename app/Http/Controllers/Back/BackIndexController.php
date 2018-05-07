@@ -12,10 +12,41 @@ class BackIndexController extends CommonController{
 		}else{
 			return view("back.index");
 		}
-		// return view("back.index");
 	}
 	public function top(){
-		return view("back.top");
+		$ip=$this->getIp();
+		$data=$this->getWeather($ip);
+		$time=date("Y-m-d");
+		$str='';
+		foreach ($data as $key => $val) {
+			if($val['days']==$time){
+				$str.=$val['citynm']."&nbsp;".$val['days']."&nbsp;".$val['week']."&nbsp;".$val['weather']."&nbsp;".$val['temperature'];
+			}
+		}
+		return view("back.top",['str'=>$str]);
+	}
+	public function getIp(){
+		$url="http://pv.sohu.com/cityjson";
+		$ch=curl_init();
+		curl_setopt($ch,CURLOPT_URL,$url);
+		curl_setopt($ch,CURLOPT_HEADER,0);
+		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+		$data=curl_exec($ch);
+		$d1=explode(',',$data);
+		$d2=explode(':',$d1[0]);
+		$ip=$d2[1];
+		$ip=explode('"',$ip);
+		return $ip[1];
+	}	
+	public function getWeather($ip){
+		$ch=curl_init();
+		$url="http://api.k780.com:88/?app=weather.future&weaid=$ip&appkey=10003&sign=b59bc3ef6191eb9f747dd4e83c99f2a4&format=json";
+		curl_setopt($ch,CURLOPT_URL,$url);
+		curl_setopt($ch,CURLOPT_HEADER,0);
+		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+		$data=curl_exec($ch);
+		$arr=json_decode($data,true);
+		return $arr['result'];
 	}
 	public function bottom(){
 		return view("back.bottom");

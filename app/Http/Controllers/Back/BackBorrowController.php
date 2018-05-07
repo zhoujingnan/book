@@ -5,7 +5,10 @@ use App\Back\BackBorrowModel;
 class BackBorrowController extends CommonController{
 	public function index(){
 		$obj=new BackBorrowModel();
+<<<<<<< HEAD
 		print_r($obj);
+=======
+>>>>>>> cd22d2dd2cc6c66c7bdfc5baf9d0e527628f3b08
 		//条件
 		$where="1=1";		
 		$sql="SELECT * FROM borrow INNER JOIN member ON borrow.m_id =member.m_id INNER JOIN book on borrow.b_id =book.b_id WHERE $where";
