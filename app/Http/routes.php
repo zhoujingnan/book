@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'Back\BackIndexController@index');
 //后台首页
 Route::get('/back/index','Back\BackIndexController@index');
 Route::get('back/top',"Back\BackIndexController@top");
@@ -72,26 +70,23 @@ Route::get("backcate/uniqueTitle","Back\BackCateController@uniqueTitle");
 //借阅管理
 Route::get("backborrow/index","Back\BackBorrowController@index");
 Route::get("backborrow/ajaxPage","Back\BackBorrowController@ajaxPage");
-
-
-
-
+Route::get("backborrow/ajaxPage","Back\BackBorrowController@ajaxPage");
 //充值日志
 Route::any("backpay/index","Back\BackPayController@index");
-<<<<<<< HEAD
-
-
-
-=======
-=======
-Route::get("backborrow/ajaxPage","Back\BackBorrowController@ajaxPage");
-<<<<<<< HEAD
 //损坏度
 Route::get("backbad/index","Back\BackBadController@index");
 Route::get("backbad/ajaxPage","Back\BackBadController@ajaxPage");
 Route::get("backbad/check/{id}/{m_id}","Back\BackBadController@check");
 Route::post("backbad/checkDo","Back\BackBadController@checkDo");
-=======
->>>>>>> 91eaa5699959be547b2e2bdd05f750146a07ff38
->>>>>>> dec023796ae1944771522ffba7f23c9a75185d0c
->>>>>>> 41ca263109d1c7f738b34083111818a02fb1edef
+
+//管理员管理
+Route::any("backuser/index","Back\BackUserController@index");
+Route::any("backuser/add","Back\BackUserController@add");
+Route::any("backuser/add_do","Back\BackUserController@add_do");
+Route::get("backuser/only","Back\BackUserController@only");
+Route::get("backuser/up_status","Back\BackUserController@up_status");
+Route::get("backuser/up_pwd/{id}","Back\BackUserController@up_pwd");
+Route::post("backuser/up_pwd_do","Back\BackUserController@up_pwd_do");
+
+//图片管理
+Route::any("backimg/index","Back\BackImgController@index");

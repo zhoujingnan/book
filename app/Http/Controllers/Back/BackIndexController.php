@@ -32,17 +32,18 @@ class BackIndexController extends CommonController{
 		$admin_id = Session::get('uid');
 		$a_data = DB::select("select * from `user` where u_id=$admin_id");
 		$a_data = json_decode(json_encode($a_data), true)[0];
-		//$a_data['last_login_time'] = $a_data['last_login_time']+3600*8;
-		//$h = date("H",$a_data['last_login_time']);
-		//if($h>=0 && $h<6){
-		//	$a_data['h'] = "凌晨好";
-		//}else if($h>=6 && $h<12){
-		//	$a_data['h'] = "上午好";
-		//}else if($h>=12 && $h<18){
-		//	$a_data['h'] = "下午好";
-		//}else if($h>=18 && $h<24){
-		//	$a_data['h'] = "晚上好";
-		//}
+		$a_data['last_login_time'] = $a_data['last_login_time']+3600*8;
+		$h = date("H",$a_data['last_login_time']);
+		// var_dump($h);die;
+		if($h>=0 && $h<6){
+			$a_data['h'] = "凌晨好";
+		}else if($h>=6 && $h<12){
+			$a_data['h'] = "上午好";
+		}else if($h>=12 && $h<18){
+			$a_data['h'] = "下午好";
+		}else if($h>=18 && $h<24){
+			$a_data['h'] = "晚上好";
+		}
 		$n_data = DB::select('SELECT * FROM `net`');
 		$data = json_decode(json_encode($n_data),true)[0];
 		//var_dump($data);

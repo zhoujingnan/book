@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use Request;
 use Gregwar\Captcha\CaptchaBuilder;
 use Session;
+use DB;
 use App\Back\BackLoginModel;
 class BackLoginController extends Controller{
 	public function index()
@@ -29,8 +30,19 @@ class BackLoginController extends Controller{
 			$url=url("back/login");
 			header("Refresh:2;url=$url");
     	}else{
-    		Session::put('uid',$arr[0]['u_id']);
-			return redirect("back/index");    		
+            if($arr[0]['status']==1){
+                $time = time();
+                $ip = $this->getIp();
+                $id = $arr[0]['u_id'];
+                $res = DB::update("update `user` set `last_login_time`=$time,`last_login_ip`=$ip,num=num+1 where u_id=$id");
+                Session::put('uid',$arr[0]['u_id']);
+                return redirect("back/index");          
+            }else{
+                echo "用户名未启用！跳转中....";
+                $url=url("back/login");
+                header("Refresh:2;url=$url");
+            }
+            
     	}
 
     }
@@ -46,5 +58,17 @@ class BackLoginController extends Controller{
         // $builder->output();
        	$img=$builder->inline();   
        	return $img; 	
+    }
+    public function getIp(){
+        $url="http://pv.sohu.com/cityjson";
+        $ch=curl_init();
+        curl_setopt($ch,CURLOPT_URL,$url);
+        curl_setopt($ch,CURLOPT_HEADER,0);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+        $data=curl_exec($ch);
+        $d1=explode(',',$data);
+        $d2=explode(':',$d1[0]);
+        $ip=$d2[1];
+        return $ip;
     }
 }
