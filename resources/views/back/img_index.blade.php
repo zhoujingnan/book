@@ -56,26 +56,39 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
 	<thead>
       <tr>
         <th align="center" valign="middle" class="borderright">编号</th>
-        <th align="center" valign="middle" class="borderright">管理员名称</th>
-        <th align="center" valign="middle" class="borderright">注册时间</th>
-        <th align="center" valign="middle" class="borderright">状态</th>
-        <th align="center" valign="middle" class="borderright">最后登陆时间</th>
-        <th align="center" valign="middle" class="borderright">最后登录ip</th>
+        <th align="center" valign="middle" class="borderright">图片</th>
+        <th align="center" valign="middle" class="borderright">地区</th>
         <th align="center" valign="middle">操作</th>
       </tr>
 	 </thead>
 	 <tbody id="to">
+    @foreach($arr as $k => $v)
       <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
         <td align="center" valign="middle" class="borderright borderbottom">
-    			
+    		  {{$v['img_id']}}
     		</td>
-         
+        <td align="center" valign="middle" class="borderright borderbottom">
+          <img src="{{asset($v['img'])}}" width="100">
+        </td>
+        <td align="center" valign="middle" class="borderright borderbottom">
+          {{$v['city']}}
+        </td>
         <td align="center" valign="middle" class="borderbottom">
-    			<a href="{{url('backnet/update')}}" target="mainFrame" onFocus="this.blur()" class="add">编辑</a>
+          <a href="{{url('backimg/del')}}" target="mainFrame" onFocus="this.blur()" class="add">删除</a>
+    			<a href="{{url('backimg/update')}}" target="mainFrame" onFocus="this.blur()" class="add">编辑</a>
     		</td>
       </tr>
-
-
+    @endforeach
+    <tr>
+    <input type="hidden" name="page" value="{{$page}}">
+    <input type="hidden" name="totalpage" value="{{$totalpage}}">
+    <td align="center" valign="top" colspan="10" class="fenye">共{{$count}}条数据&nbsp;&nbsp;当前第{{$page}}页
+        <a href="javascript:void(0)" class="first" target="mainFrame" onFocus="this.blur()">首页</a>&nbsp;&nbsp;
+        <a href="javascript:void(0)" class="prev" target="mainFrame" onFocus="this.blur()">上一页</a>&nbsp;&nbsp;
+        <a href="javascript:void(0)" class="next" target="mainFrame" onFocus="this.blur()">下一页</a>&nbsp;&nbsp;
+        <a href="javascript:void(0)" class="end" target="mainFrame" onFocus="this.blur()">尾页</a>
+    </td>
+  </tr>
 	 </tbody>
     </table></td>
     </tr>
@@ -85,6 +98,66 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
 </table>
 </body>
 <script>
-
+$(function(){
+    //删除
+    $(document).on('click','.del',function(){
+      var obj = $(this);
+      var id = obj.attr('id');
+      var page = parseInt($("[name='page']").val());
+      $.ajax({
+        type:'get',
+        url:"<?php echo url('backadvertising/del')?>",
+        data:{id:id},
+        success:function(arr){
+          obj.parent().parent().remove();
+          ajaxPage(page);
+        }
+      })
+    })
+    //搜索
+    $(document).on("click",".text-but",function(){
+      var text_word=$(".text-word").val();
+      ajaxPage(1);      
+    })
+    //分析当前页
+    $(document).on("click",".fenye a",function(){
+      var page=parseInt($("[name='page']").val());
+      var totalpage=parseInt($("[name='totalpage']").val());
+      if($(this).is(".first")){
+        p=1;
+      }
+      if($(this).is(".prev")){
+        p=page-1;
+        if(p<1){
+          p=1;
+        }
+      }
+      if($(this).is(".next")){
+        p=page+1;
+        if(p>totalpage){
+          p=totalpage;
+        }       
+      }        
+      if($(this).is(".end")){
+        p=totalpage;
+      }           
+        ajaxPage(p);      
+    })
+    //发送ajax
+    function ajaxPage(p){
+      //alert(p)
+      var text_word=$(".text-word").val();
+      $.ajax({
+        type:'get',
+        url:"<?php echo url('backadvertising/pagedata')?>",
+        data:{page:p,key:text_word},
+        success:function(arr){
+          console.log(arr);
+          $("#to").empty();
+          $("#to").html(arr);
+        }
+      })
+    }
+  })
 </script>
 </html>

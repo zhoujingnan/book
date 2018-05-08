@@ -5,7 +5,19 @@ use DB;
 use Illuminate\Support\Facades\Input;
 class BackImgController extends CommonController{
 	public function index(){
-		return view("back.img_index");
+		$count = DB::table('img')->count();//总条数
+		echo $count;die;
+		$page = 1;//当前页数
+		$total = ceil($count/5);//总页数
+		$data = DB::select("select * from `img` limit 0,5");
+		$data = json_decode(json_encode($data),true);
+		foreach ($data as $k => $v) {
+			$id = $v['city_id'];
+			$c_data = DB::select("select * from `city` where city_id=$id");
+			$data[$k]['city'] = json_decode(json_encode($c_data),true)[0]['city_name'];
+		}
+		// var_dump($data);die;
+		return view("back.img_index",array('arr'=>$data,'page'=>$page,'count'=>$count,'totalpage'=>$total));
 	}
 	public function add(){
 		$c_data = DB::select("select * from `city` where parent_id=1");
