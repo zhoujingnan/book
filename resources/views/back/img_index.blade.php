@@ -56,25 +56,29 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
 	<thead>
       <tr>
         <th align="center" valign="middle" class="borderright">编号</th>
-        <th align="center" valign="middle" class="borderright">管理员名称</th>
-        <th align="center" valign="middle" class="borderright">注册时间</th>
-        <th align="center" valign="middle" class="borderright">状态</th>
-        <th align="center" valign="middle" class="borderright">最后登陆时间</th>
-        <th align="center" valign="middle" class="borderright">最后登录ip</th>
+        <th align="center" valign="middle" class="borderright">图片</th>
+        <th align="center" valign="middle" class="borderright">地区</th>
         <th align="center" valign="middle">操作</th>
       </tr>
 	 </thead>
 	 <tbody id="to">
+    @foreach($arr as $k => $v)
       <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
         <td align="center" valign="middle" class="borderright borderbottom">
-    			
+    		  {{$v['img_id']}}
     		</td>
-         
+        <td align="center" valign="middle" class="borderright borderbottom">
+          <img src="{{asset($v['img'])}}" width="100">
+        </td>
+        <td align="center" valign="middle" class="borderright borderbottom">
+          {{$v['city']}}
+        </td>
         <td align="center" valign="middle" class="borderbottom">
-    			<a href="{{url('backnet/update')}}" target="mainFrame" onFocus="this.blur()" class="add">编辑</a>
+          <a href="{{url('backimg/del')}}" target="mainFrame" onFocus="this.blur()" class="add">删除</a>
+    			<a href="{{url('backimg/update')}}" target="mainFrame" onFocus="this.blur()" class="add">编辑</a>
     		</td>
       </tr>
-
+    @endforeach
 
 	 </tbody>
     </table></td>
