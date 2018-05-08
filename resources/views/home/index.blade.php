@@ -115,6 +115,7 @@
 
 							<div class="panel-body">
 <!-- 文章列表开始 -->
+<span class="tt">
 @foreach($book_data as $key =>$val)
 <div class="contentList">
 	<div class="panel panel-default">
@@ -149,7 +150,7 @@
 						<button class="aa" num="{{$val['num']}}" b_id="{{$val['b_id']}}">借书</button>
 					</span>
 					<span class="count">
-						<button class="aa" num="{{$val['num']}}" b_id="{{$val['b_id']}}">买书</button>
+						<button class="bb" num="{{$val['num']}}" b_id="{{$val['b_id']}}">买书</button>
 					</span>
 				<?php }else{ ?>
 					<?php if($val['num']==0){ ?>
@@ -161,19 +162,19 @@
 									<button class="aa" num="{{$val['num']}}" b_id="{{$val['b_id']}}">还书</button>
 								</span>
 								<span class="count">
-									<button class="aa" num="{{$val['num']}}" b_id="{{$val['b_id']}}">买书</button>
+									<button class="bb" num="{{$val['num']}}" b_id="{{$val['b_id']}}">买书</button>
 								</span>
 							<?php }elseif ($val['type']==1) { ?>	
 								<span class="count">还书待审核</span>
 								<span class="count">
-									<button class="aa" num="{{$val['num']}}" b_id="{{$val['b_id']}}">买书</button>
+									<button class="bb" num="{{$val['num']}}" b_id="{{$val['b_id']}}">买书</button>
 								</span>
 							<?php }else{ ?>			
 								<span class="count">
 									<button class="aa" num="{{$val['num']}}" b_id="{{$val['b_id']}}">借书</button>
 								</span>
 								<span class="count">
-									<button class="aa" num="{{$val['num']}}" b_id="{{$val['b_id']}}">买书</button>
+									<button class="bb" num="{{$val['num']}}" b_id="{{$val['b_id']}}">买书</button>
 								</span>	
 							<?php } ?>	
 						<?php }else{ ?>
@@ -181,7 +182,7 @@
 								<button class="aa" num="{{$val['num']}}" b_id="{{$val['b_id']}}">借书</button>
 							</span>
 							<span class="count">
-								<button class="aa" num="{{$val['num']}}" b_id="{{$val['b_id']}}">买书</button>
+								<button class="bb" num="{{$val['num']}}" b_id="{{$val['b_id']}}">买书</button>
 							</span>	
 						<?php } ?>
 					<?php } ?>				
@@ -191,8 +192,48 @@
 	</div>
 </div>
 @endforeach
+
+	<span class="span">
+		<input type="hidden" name="page" value="{{$page}}">
+		<input type="hidden" name="totalpage" value="{{$totalpage}}">
+		<span>总条数:{{$count}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+		<span>{{$page}}/{{$totalpage}}</span>
+		<a href="javascript:void(0)" class="first">首页</a>
+		<a href="javascript:void(0)" class="prev">上一页</a>
+		<a href="javascript:void(0)" class="next">下一页</a>
+	</span>
+</span>
 <script>
 $(function(){
+	//判断点击的页数
+	$(document).on("click",".span a",function(){
+		var page=parseInt($("[name='page']").val());
+		var totalpage=parseInt($("[name='totalpage']").val());
+		if($(this).is(".first")){
+			p=1;
+		}else if($(this).is('.prev')){
+			p=page-1;
+			if(p<1){p=1;}
+		}else if($(this).is('.next')){
+			p=page+1; 
+			if(p>totalpage){p=totalpage}
+		}
+		// console.log(p)
+		ajaxPage(p);
+	})
+	//分页
+	function ajaxPage(p){
+		$.ajax({
+			type:'get',
+			url:"{{url('homeindex/ajaxPage')}}",
+			data:{page:p},
+			success:function(arr){
+				console.log(arr);
+				$(".tt").html(arr);
+			}
+		})
+	}
+	//判断
 	$(document).on("click",".aa",function(){
 		var b_id=$(this).attr("b_id");
 		var num=$(this).attr("num");
@@ -216,6 +257,12 @@ $(function(){
 				console.log(msg);
 				if(msg==1){
 					history.go(0)
+				}else if(msg==2){
+					alert("每个用户只能借三本");
+				}else if(msg==3){
+					alert("账号审核中");
+				}else if(msg==4){
+					alert("押金不足");
 				}
 			}
 		})

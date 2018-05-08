@@ -10,12 +10,11 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-<<<<<<< HEAD
 
 Route::get('/', 'Back\BackIndexController@index');
-=======
 //前台
 Route::get("/","Home\HomeIndexController@index");
+Route::get("homeindex/ajaxPage","Home\HomeIndexController@ajaxPage");
 Route::get("homeindex/about","Home\HomeIndexController@about");
 Route::get("homeindex/article","Home\HomeIndexController@article");
 Route::get("homeindex/moodList","Home\HomeIndexController@moodList");
@@ -23,7 +22,6 @@ Route::get("homeindex/comment","Home\HomeIndexController@comment");
 Route::get("homeindex/addRead","Home\HomeIndexController@addRead");
 //搜索分类图书
 Route::get("homecate/index/{cate_id}","Home\HomeCateController@index");
->>>>>>> cd22d2dd2cc6c66c7bdfc5baf9d0e527628f3b08
 //后台首页
 Route::get('/back/index','Back\BackIndexController@index');
 Route::get('back/top',"Back\BackIndexController@top");
@@ -86,19 +84,15 @@ Route::get("backborrow/ajaxPage","Back\BackBorrowController@ajaxPage");
 Route::get("backborrow/ajaxPage","Back\BackBorrowController@ajaxPage");
 //充值日志
 Route::any("backpay/index","Back\BackPayController@index");
-<<<<<<< HEAD
-=======
 
 
 
 Route::get("backborrow/ajaxPage","Back\BackBorrowController@ajaxPage");
->>>>>>> cd22d2dd2cc6c66c7bdfc5baf9d0e527628f3b08
 //损坏度
 Route::get("backbad/index","Back\BackBadController@index");
 Route::get("backbad/ajaxPage","Back\BackBadController@ajaxPage");
 Route::get("backbad/check/{id}/{m_id}","Back\BackBadController@check");
 Route::post("backbad/checkDo","Back\BackBadController@checkDo");
-<<<<<<< HEAD
 
 //管理员管理
 Route::any("backuser/index","Back\BackUserController@index");
@@ -111,5 +105,3 @@ Route::post("backuser/up_pwd_do","Back\BackUserController@up_pwd_do");
 
 //图片管理
 Route::any("backimg/index","Back\BackImgController@index");
-=======
->>>>>>> cd22d2dd2cc6c66c7bdfc5baf9d0e527628f3b08
