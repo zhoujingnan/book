@@ -89,7 +89,11 @@ Route::any("backpay/index","Back\BackPayController@index");
 
 
 
+<<<<<<< HEAD
 
+=======
+Route::get("backborrow/ajaxPage","Back\BackBorrowController@ajaxPage");
+>>>>>>> acf41868cb2eeed25ea03377d86ac6754596935c
 //损坏度
 Route::get("backbad/index","Back\BackBadController@index");
 Route::get("backbad/ajaxPage","Back\BackBadController@ajaxPage");
