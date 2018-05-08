@@ -32,12 +32,14 @@
 						<li><a href="{{url('homeindex/comment')}}">留言</a></li>
 					</ul> -->
 					<ul>
+						<input type="hidden" class="key">
 						@foreach($arr as $key =>$val)
-						<li><a href="{{url('homecate/index',['cate_id'=>$val['cate_id']])}}">
+						<li><a cate_id="{{$val['cate_id']}}" href="javascript:void(0)" class="aaa">
 							{{$val['cate_name']}}
 						</a></li>
 						@endforeach
-					</ul>					
+					</ul>			
+
 				</span>
 					<div class="w_search">
 						<div class="w_searchbox">
@@ -221,14 +223,21 @@ $(function(){
 		// console.log(p)
 		ajaxPage(p);
 	})
+	//分类搜索
+	$(document).on("click",".aaa",function(){
+		var cate_id=$(this).attr("cate_id");
+		$(".key").val(cate_id);
+		ajaxPage(1);
+	})
 	//分页
 	function ajaxPage(p){
+		var cate_id=$(".key").val();
 		$.ajax({
 			type:'get',
 			url:"{{url('homeindex/ajaxPage')}}",
-			data:{page:p},
+			data:{page:p,cate_id:cate_id},
 			success:function(arr){
-				console.log(arr);
+				// console.log(arr);
 				$(".tt").html(arr);
 			}
 		})

@@ -51,9 +51,16 @@ class HomeIndexController extends Controller{
 	}
 	//分页
 	public function ajaxPage(){
+		//条件
+		$cate_id=$_GET['cate_id'];
+		if(empty($cate_id)){
+			$where="1=1";
+		}else{
+			$where="book.cate_id=$cate_id";
+		}
 		$obj=new CommonModel();
 		//总条数
-		$count=count(DB::select("SELECT * FROM `book` INNER JOIN `cate` ON book.cate_id=cate.cate_id ORDER BY book.addtime DESC"));
+		$count=count(DB::select("SELECT * FROM `book` INNER JOIN `cate` ON book.cate_id=cate.cate_id WHERE $where ORDER BY book.addtime DESC"));
 		//每页显示条数
 		$pagesize=6;
 		//总页数
@@ -65,7 +72,7 @@ class HomeIndexController extends Controller{
 		//查询搜索分类
 		$arr=json_decode(json_encode($obj->find("cate","1=1")),true);
 		//查询图书
-		$book_data=DB::select("SELECT * FROM `book` INNER JOIN `cate` ON book.cate_id=cate.cate_id ORDER BY book.addtime DESC LIMIT $offset,$pagesize");
+		$book_data=DB::select("SELECT * FROM `book` INNER JOIN `cate` ON book.cate_id=cate.cate_id WHERE $where ORDER BY book.addtime DESC LIMIT $offset,$pagesize");
 		$book_data=json_decode(json_encode($book_data),true);
 		//阅读量
 		foreach ($book_data as $key => $val) {
