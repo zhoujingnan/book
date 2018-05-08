@@ -68,13 +68,19 @@ class BackBadController extends CommonController{
 	//审核
 	public function check($id,$m_id){
 		$obj=new BackBadModel();
+		$b_id=json_decode(json_encode($obj->find("borrow","`id`=$id")),true)[0]['b_id'];
 		$mem_info=json_decode(json_encode($obj->find("member","`m_id`=$m_id")),true);
-		return view("back.bad_check",['arr'=>$mem_info,'id'=>$id]);
+		return view("back.bad_check",['arr'=>$mem_info,'id'=>$id,'b_id'=>$b_id]);
 	}
 	//做审核
 	public function checkDo(){
 		$obj=new Mail();
 		$arr=$_POST;
+		$b_id=$arr['b_id'];
+		$obj=new BackBadModel();
+		//查询概书的售价
+		$b_pri=json_decode(json_encode($obj->find("book","`b_id`=$b_id")),true)[0]['b_price'];
+		$b_pri=intval($b_pri);
 		$GLOBALS['m_email']=$arr['m_email'];
 		$GLOBALS['desc']=$arr['desc'];
 		unset($arr['_token']);
@@ -84,23 +90,40 @@ class BackBadController extends CommonController{
 		});
 		if($arr['bad_money']=="轻度")
 		{
-			$socre=5;
+			$socre=intval(5+$b_pri);
 		}else if($arr['bad_money']=="中度")
 		{
-			$socre=10;
+			$socre=intval(10+$b_pri);
 		}
 		else if($arr['bad_money']=="重度")
 		{
-			$socre=20;
+			$socre=intval(20+$b_pri);
 		}
-		else
+		else if($arr['bad_money']=="完好")
 		{
-			$socre=0;
+			$socre=$b_pri;
 		}
 		$id=$arr['id'];
 		$m_id=$arr['m_id'];
-		$res=DB::update("update `member` set socre=socre-$socre where m_id =$m_id");
+		if($socre==0){
+			$res=1;
+			//扣除相应的借书金额
+			// DB::update("update `member` set socre=socre-$socre where m_id =$m_id");
+		}
+		else
+		{
+			$res=DB::update("update `member` set socre=socre-$socre where m_id =$m_id");
+		}
+		
 		if($res){
+			//添加消费日志
+			$free['m_id']=$m_id;
+			$free['b_id']=$b_id;
+			$free['addtime']=time();
+			$free['type']=1;
+			$free['money']=$socre;
+			$obj->add("free_log",$free);
+			//
 			$time=time();
 			$bad_msg=$arr['desc'];
 			$bad_money=$socre;

@@ -53,6 +53,7 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
       <input type="hidden" name="_token" value="{{csrf_token()}}">
       <input type="text" name="id" value="{{$id}}">
       <input type="text" name="m_id" value="{{$arr[0]['m_id']}}">
+      <input type="text" name="b_id" value="{{$b_id}}">
       <input type="text" name="m_email" value="{{$arr[0]['m_email']}}">
       <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
         <td align="right" valign="middle" class="borderright borderbottom bggray">会员名：</td>
@@ -73,7 +74,8 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
         <span>
         	<input type="radio" name="bad_money" value="轻度">轻度
         	<input type="radio" name="bad_money" value="中度">中度
-        	<input type="radio" name="bad_money" value="重度">重度
+          <input type="radio" name="bad_money" value="重度">重度
+        	<input type="radio" name="bad_money" value="完好">完好
         </span>
         </td>
         </tr>      

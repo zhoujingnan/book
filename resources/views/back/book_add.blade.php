@@ -58,6 +58,13 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
         <span class="y_b_title"></span>
         </td>
         </tr>
+  <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
+        <td align="right" valign="middle" class="borderright borderbottom bggray">作者：</td>
+        <td align="left" valign="middle" class="borderright borderbottom main-for">
+        <input type="text" name="author" value="" class="text-word">
+        <span class="y_author"></span>
+        </td>
+        </tr>        
       <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
         <td align="right" valign="middle" class="borderright borderbottom bggray">数量：</td>
         <td align="left" valign="middle" class="borderright borderbottom main-for">
@@ -125,6 +132,7 @@ $(function(){
   var s=false;
   var b=false;
   var o=false;
+  var a=false;
     //书名唯一性
     $(document).on("blur","[name='b_title']",function(){
         var b_title=$(this).val();
@@ -177,6 +185,23 @@ $(function(){
       {
         $(".y_num").html("<font color='red'>请填写数量</font>");
         n=false;
+        return false;        
+      }
+    })
+    //作者
+    $(document).on("blur","[name='author']",function(){
+      var author=$(this).val();
+      if(author)
+      {
+          $(".y_author").html("<font color='green'>√</font>");
+          a=true;
+          return true;
+        
+      }
+      else
+      {
+        $(".y_author").html("<font color='red'>请填写作者</font>");
+        a=false;
         return false;        
       }
     })
@@ -267,7 +292,7 @@ $(function(){
       }
     })      
     $("form").submit(function(e){
-      if(t==true&&n==true&&d==true&&s==true&&b==true&&o==true){
+      if(t==true&&n==true&&d==true&&s==true&&b==true&&o==true&&a==true){
         return true;
       }else{
         return false;

@@ -20,9 +20,9 @@
         <td align="center" valign="middle" class="borderright borderbottom">{{$val['m_address']}}</td>
         <td align="center" valign="middle" class="borderright borderbottom" id="{{$val['m_id']}}">
         @if($val['status']==0)
-      <font color="red" class="w">未审核</font>
+      <font color="red" class="w">锁定</font>
     @else
-      <font color="green" class="y">审核通过</font>
+      <font color="green" class="y">解锁</font>
     @endif
       </td>
         <td align="center" valign="middle" class="borderright borderbottom">{{date("Y-m-d H:i:s",$val['addtime'])}}</td>
