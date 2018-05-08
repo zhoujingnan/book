@@ -36,15 +36,15 @@ body{overflow-x:hidden; background:url({{asset('images/main/leftbg.jpg')}}) left
         <a href="main_info.html" target="mainFrame" onFocus="this.blur()">权限列表</a>
       </div>
       <div>
-        <span>栏目管理</span>  
+        <span>栏目管理</span> 
         @foreach($arr as $key => $val)
         <a href="/month13/book/public/{{$val['url']}}" target="mainFrame" onFocus="this.blur()">{{$val['column_name']}}</a>
         @endforeach
       </div>
       <div>
         <span>活动管理</span>
-        <a href="main_list.html" target="mainFrame" onFocus="this.blur()">添加活动</a>
-        <a href="main_info.html" target="mainFrame" onFocus="this.blur()">活动列表</a>
+        <a href="{{url('backactivity/add')}}" target="mainFrame" onFocus="this.blur()">添加活动</a>
+        <a href="{{url('backactivity/index')}}" target="mainFrame" onFocus="this.blur()">活动列表</a>
       </div>
       <div>
         <span>日志管理</span>
