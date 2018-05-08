@@ -7,10 +7,11 @@
 	</head>
 
 	<link href="plugin/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="css/common.css" />
+	<link rel="stylesheet" type="text/css" href="{{asset('css/common.css')}}" />
 	<link href="logo.ico" rel="shortcut icon" />
-	<script src="plugin/jquery.min.js"></script>
-	<script src="plugin/bootstrap/js/bootstrap.min.js"></script>
+	<script src="{{asset('plugin/jquery.min.js')}}"></script>
+	<script src="{{asset('plugin/bootstrap/js/bootstrap.min.js')}}"></script>
+	<script src="{{asset('jquery-1.8.3.js')}}"></script>
 	<!--<script type="text/javascript" src="plugin/jquery.page.js"></script>-->
 	<!--<script src="js/common.js"></script>-->
 	<!--<script src="js/snowy.js"></script>-->
@@ -114,6 +115,7 @@
 
 							<div class="panel-body">
 <!-- 文章列表开始 -->
+<span class="tt">
 @foreach($book_data as $key =>$val)
 <div class="contentList">
 	<div class="panel panel-default">
@@ -144,26 +146,44 @@
 					<i class="glyphicon glyphicon-time"></i>{{date("Y-m-d",$val['addtime'])}}
 				</span>
 				<?php if($member==''){ ?>
-					<span class="count"><button>借书</button></span>
-					<span class="count"><button>买书</button></span>
+					<span class="count">
+						<button class="aa" num="{{$val['num']}}" b_id="{{$val['b_id']}}">借书</button>
+					</span>
+					<span class="count">
+						<button class="bb" num="{{$val['num']}}" b_id="{{$val['b_id']}}">买书</button>
+					</span>
 				<?php }else{ ?>
 					<?php if($val['num']==0){ ?>
 					<span>库存为零</span>
 					<?php }else{ ?>
 						<?php if(isset($val['type'])){ ?>
 							<?php if($val['type']==0){ ?>
-								<span class="count"><button>还书</button></span>
-								<span class="count"><button>买书</button></span>
+								<span class="count">
+									<button class="aa" num="{{$val['num']}}" b_id="{{$val['b_id']}}">还书</button>
+								</span>
+								<span class="count">
+									<button class="bb" num="{{$val['num']}}" b_id="{{$val['b_id']}}">买书</button>
+								</span>
 							<?php }elseif ($val['type']==1) { ?>	
 								<span class="count">还书待审核</span>
-								<span class="count"><button>买书</button></span>
+								<span class="count">
+									<button class="bb" num="{{$val['num']}}" b_id="{{$val['b_id']}}">买书</button>
+								</span>
 							<?php }else{ ?>			
-								<span class="count"><button>借书</button></span>
-								<span class="count"><button>买书</button></span>	
+								<span class="count">
+									<button class="aa" num="{{$val['num']}}" b_id="{{$val['b_id']}}">借书</button>
+								</span>
+								<span class="count">
+									<button class="bb" num="{{$val['num']}}" b_id="{{$val['b_id']}}">买书</button>
+								</span>	
 							<?php } ?>	
 						<?php }else{ ?>
-							<span class="count"><button>借书</button></span>
-							<span class="count"><button>买书</button></span>	
+							<span class="count">
+								<button class="aa" num="{{$val['num']}}" b_id="{{$val['b_id']}}">借书</button>
+							</span>
+							<span class="count">
+								<button class="bb" num="{{$val['num']}}" b_id="{{$val['b_id']}}">买书</button>
+							</span>	
 						<?php } ?>
 					<?php } ?>				
 				<?php } ?>
@@ -172,6 +192,83 @@
 	</div>
 </div>
 @endforeach
+
+	<span class="span">
+		<input type="hidden" name="page" value="{{$page}}">
+		<input type="hidden" name="totalpage" value="{{$totalpage}}">
+		<span>总条数:{{$count}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+		<span>{{$page}}/{{$totalpage}}</span>
+		<a href="javascript:void(0)" class="first">首页</a>
+		<a href="javascript:void(0)" class="prev">上一页</a>
+		<a href="javascript:void(0)" class="next">下一页</a>
+	</span>
+</span>
+<script>
+$(function(){
+	//判断点击的页数
+	$(document).on("click",".span a",function(){
+		var page=parseInt($("[name='page']").val());
+		var totalpage=parseInt($("[name='totalpage']").val());
+		if($(this).is(".first")){
+			p=1;
+		}else if($(this).is('.prev')){
+			p=page-1;
+			if(p<1){p=1;}
+		}else if($(this).is('.next')){
+			p=page+1; 
+			if(p>totalpage){p=totalpage}
+		}
+		// console.log(p)
+		ajaxPage(p);
+	})
+	//分页
+	function ajaxPage(p){
+		$.ajax({
+			type:'get',
+			url:"{{url('homeindex/ajaxPage')}}",
+			data:{page:p},
+			success:function(arr){
+				console.log(arr);
+				$(".tt").html(arr);
+			}
+		})
+	}
+	//判断
+	$(document).on("click",".aa",function(){
+		var b_id=$(this).attr("b_id");
+		var num=$(this).attr("num");
+		var html=$(this).html();
+		if(html=="还书"){
+			type=1;
+		}else if(html=="借书")
+		{
+			type=0;
+		}else if(html=="买书")
+		{
+			type=2;
+		}
+		console.log(b_id);
+		console.log(num);
+		$.ajax({
+			type:'get',
+			url:"<?php echo url('homeindex/addRead')?>",
+			data:{b_id:b_id,num:num,type:type},
+			success:function(msg){
+				console.log(msg);
+				if(msg==1){
+					history.go(0)
+				}else if(msg==2){
+					alert("每个用户只能借三本");
+				}else if(msg==3){
+					alert("账号审核中");
+				}else if(msg==4){
+					alert("押金不足");
+				}
+			}
+		})
+	})
+})
+</script>
 <!--文章列表结束-->
 							</div>
 						</div>
