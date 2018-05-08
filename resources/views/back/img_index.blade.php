@@ -40,8 +40,12 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
     <table width="100%" border="0" cellspacing="0" cellpadding="0" id="search">
   		<tr>
         <td width="90%" align="left" valign="middle">
-        
-        </td>
+           <form method="post" action="">
+           <span>地区：</span>
+           <input type="text" name="" value="" class="text-word">
+           <input name="" type="button" value="查询" class="text-but">
+           </form>
+         </td>
          <td width="10%" align="center" valign="middle" style="text-align:right; width:150px;"><a href="{{url('backimg/add')}}" target="mainFrame" onFocus="this.blur()" class="add">新增图片</a></td>
        </td>
       
@@ -74,7 +78,7 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
           {{$v['city']}}
         </td>
         <td align="center" valign="middle" class="borderbottom">
-          <a href="{{url('backimg/del')}}" target="mainFrame" onFocus="this.blur()" class="add">删除</a>
+          <a href="{{url('backimg/del')}}" target="mainFrame" onFocus="this.blur()" class="add" id="{{$v['img_id']}}">删除</a>
     			<a href="{{url('backimg/update')}}" target="mainFrame" onFocus="this.blur()" class="add">编辑</a>
     		</td>
       </tr>
@@ -83,10 +87,10 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
     <input type="hidden" name="page" value="{{$page}}">
     <input type="hidden" name="totalpage" value="{{$totalpage}}">
     <td align="center" valign="top" colspan="10" class="fenye">共{{$count}}条数据&nbsp;&nbsp;当前第{{$page}}页
-        <a href="javascript:void(0)" class="first" target="mainFrame" onFocus="this.blur()">首页</a>&nbsp;&nbsp;
-        <a href="javascript:void(0)" class="prev" target="mainFrame" onFocus="this.blur()">上一页</a>&nbsp;&nbsp;
-        <a href="javascript:void(0)" class="next" target="mainFrame" onFocus="this.blur()">下一页</a>&nbsp;&nbsp;
-        <a href="javascript:void(0)" class="end" target="mainFrame" onFocus="this.blur()">尾页</a>
+        <a href="javascript:void(0)">首页</a>&nbsp;&nbsp;
+        <a href="javascript:void(0)">上一页</a>&nbsp;&nbsp;
+        <a href="javascript:void(0)">下一页</a>&nbsp;&nbsp;
+        <a href="javascript:void(0)">尾页</a>
     </td>
   </tr>
 	 </tbody>
@@ -99,26 +103,6 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
 </body>
 <script>
 $(function(){
-    //删除
-    $(document).on('click','.del',function(){
-      var obj = $(this);
-      var id = obj.attr('id');
-      var page = parseInt($("[name='page']").val());
-      $.ajax({
-        type:'get',
-        url:"<?php echo url('backadvertising/del')?>",
-        data:{id:id},
-        success:function(arr){
-          obj.parent().parent().remove();
-          ajaxPage(page);
-        }
-      })
-    })
-    //搜索
-    $(document).on("click",".text-but",function(){
-      var text_word=$(".text-word").val();
-      ajaxPage(1);      
-    })
     //分析当前页
     $(document).on("click",".fenye a",function(){
       var page=parseInt($("[name='page']").val());
@@ -149,7 +133,7 @@ $(function(){
       var text_word=$(".text-word").val();
       $.ajax({
         type:'get',
-        url:"<?php echo url('backadvertising/pagedata')?>",
+        url:"<?php echo url('backimg/pagedata')?>",
         data:{page:p,key:text_word},
         success:function(arr){
           console.log(arr);

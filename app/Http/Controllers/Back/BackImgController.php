@@ -2,11 +2,12 @@
 namespace App\Http\Controllers\Back;
 use App\Http\Controllers\Back\CommonControllers;
 use DB;
+use App\Back\ImgModel;
 use Illuminate\Support\Facades\Input;
 class BackImgController extends CommonController{
 	public function index(){
 		$count = DB::table('img')->count();//总条数
-		echo $count;die;
+		// echo $count;die;
 		$page = 1;//当前页数
 		$total = ceil($count/5);//总页数
 		$data = DB::select("select * from `img` limit 0,5");
@@ -18,6 +19,35 @@ class BackImgController extends CommonController{
 		}
 		// var_dump($data);die;
 		return view("back.img_index",array('arr'=>$data,'page'=>$page,'count'=>$count,'totalpage'=>$total));
+	}
+	public function pagedata(){
+		$key=$_GET['key'];
+		if(empty($key)){
+			$where="1=1";
+		}else{
+			$c_data = DB::select("select * from `city` where city_name like '%$key%'");
+			$c_id = json_decode(json_encode($c_data),true)[0]['city_id'];
+			$where="`city_id`= $c_id";
+		}
+		$obj=new ImgModel();
+		//总条数
+		$count=$obj->count("img","1=1");
+		//每页显示的条数
+		$limit=5;
+		//总页数
+		$totalpage=ceil($count/$limit);
+		//当前页
+		$page=$_GET['page'];
+		//偏移量
+		$offet=($page-1)*$limit;
+		//数据
+		$arr=json_decode(json_encode($obj->select('img',$where,$offet,$limit)),true);
+		foreach ($arr as $k => $v) {
+			$id = $v['city_id'];
+			$c_data = DB::select("select * from `city` where city_id=$id");
+			$arr[$k]['city'] = json_decode(json_encode($c_data),true)[0]['city_name'];
+		}
+		return view('back.img_list_ajax',['arr'=>$arr,'totalpage'=>$totalpage,'count'=>$count,'page'=>$page]);
 	}
 	public function add(){
 		$c_data = DB::select("select * from `city` where parent_id=1");
