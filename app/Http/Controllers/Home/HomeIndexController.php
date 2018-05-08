@@ -27,6 +27,13 @@ class HomeIndexController extends Controller{
 			$id=$val['b_id'];
 			$book_data[$key]['read_num']=count($obj->find("borrow","b_id=$id"));
 		}
+		//长尾词
+		$book_name_data=json_decode(json_encode($obj->find("book","1=1")),true);
+		$str='';
+		foreach ($book_name_data as $key => $val) {
+			$str[$key]['title']=$val['b_title'];
+		}
+		// $str=json_encode($str,JSON_UNESCAPED_UNICODE);
 		//登录的用户
 		Session::put("member_id",1);
 		$member=Session::get("member_id");
@@ -47,7 +54,8 @@ class HomeIndexController extends Controller{
 		}
 		
 		// print_r($book_data);die;
-		return view("home.index",['arr'=>$arr,'book_data'=>$book_data,'member'=>$member,'page'=>$page,'totalpage'=>$totalpage,'count'=>$count]);
+		
+		return view("home.index",['arr'=>$arr,'book_data'=>$book_data,'member'=>$member,'page'=>$page,'totalpage'=>$totalpage,'count'=>$count,'str'=>$str]);
 	}
 	//分页
 	public function ajaxPage(){

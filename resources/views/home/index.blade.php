@@ -2,20 +2,29 @@
 <html>
 
 	<head>
+		
 		<meta charset="UTF-8">
 		<title>风宇个人博客</title>
+		
 	</head>
-
+	<link rel="stylesheet" href="{{asset('css/jquery.bigautocomplete.css')}}" type="text/css" />
 	<link href="plugin/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="{{asset('css/common.css')}}" />
 	<link href="logo.ico" rel="shortcut icon" />
 	<script src="{{asset('plugin/jquery.min.js')}}"></script>
 	<script src="{{asset('plugin/bootstrap/js/bootstrap.min.js')}}"></script>
 	<script src="{{asset('jquery-1.8.3.js')}}"></script>
+	<script type="text/javascript" src="{{asset('js/jquery-1.8.2.min.js')}}"></script>
+	<script type="text/javascript" src="{{asset('js/jquery.bigautocomplete.js')}}"></script>	
 	<!--<script type="text/javascript" src="plugin/jquery.page.js"></script>-->
 	<!--<script src="js/common.js"></script>-->
 	<!--<script src="js/snowy.js"></script>-->
-
+<style>
+	.bttn{    width: 43px;
+    height: 31px;
+    margin-top: 10px;
+    font-size: 13px;}
+</style>
 	<body>
 		<div class="w_header">
 			<div class="container">
@@ -41,12 +50,12 @@
 					</ul>			
 
 				</span>
-					<div class="w_search">
+					<!-- <div class="w_search">
 						<div class="w_searchbox">
-							<input type="text" placeholder="search" />
+							<input type="text" placeholder="search" id="tt"/>
 							<button>搜索</button>
 						</div>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</div>
@@ -207,6 +216,10 @@
 </span>
 <script>
 $(function(){
+	$("#tt").bigAutocomplete({width:254,data:<?php echo json_encode($str,JSON_UNESCAPED_UNICODE); ?>,callback:function(data){
+				// alert(data.title);
+				
+			}});	
 	//判断点击的页数
 	$(document).on("click",".span a",function(){
 		var page=parseInt($("[name='page']").val());
@@ -285,7 +298,13 @@ $(function(){
 
 					<!--左侧开始-->
 					<div class="col-lg-3 col-md-3 w_main_right">
-
+<span class="bbtitle">
+	
+</span>
+<div class="w_searchbox">
+	<input type="text" placeholder="search" id="tt" style="width: 211px;height: 38px;margin-bottom: 10px;" />
+	<button class="bttn">搜索</button>
+</div>
 						<div class="panel panel-default sitetip">
 							<a href="article_detail.html">
 								<strong>站点公告</strong>
