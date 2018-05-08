@@ -38,7 +38,14 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
   <tr>
     <td align="left" valign="top">
     <table width="100%" border="0" cellspacing="0" cellpadding="0" id="search">
-  		
+  		<tr>
+        <td width="90%" align="left" valign="middle">
+        
+        </td>
+         <td width="10%" align="center" valign="middle" style="text-align:right; width:150px;"><a href="{{url('backimg/add')}}" target="mainFrame" onFocus="this.blur()" class="add">新增图片</a></td>
+       </td>
+      
+    </tr>
 	</table>
     </td>
   </tr>

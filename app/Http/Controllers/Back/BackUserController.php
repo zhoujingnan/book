@@ -32,7 +32,13 @@ class BackUserController extends CommonController{
 	public function up_pwd_do(){
 		$data = $_POST;
 		$id = $data['id'];
-		$pwd = $data['u_pwd'];
+		$pwd = strrev(md5(crc32($data['u_pwd'])));
+		$res = DB::update("update `user` set `u_pwd`='$pwd' where u_id=$id");
+		if($res){
+			return redirect('back/main');
+		}else{
+			return redirect('backuser/up_pwd');
+		}
 	}
 	//审核状态
 	public function up_status(){

@@ -39,7 +39,7 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
 <!--main_top-->
 <table width="99%" border="0" cellspacing="0" cellpadding="0" id="searchmain">
   <tr>
-    <td width="99%" align="left" valign="top">您的位置：管理员管理&nbsp;&nbsp;>&nbsp;&nbsp;添加管理员</td>
+    <td width="99%" align="left" valign="top">您的位置：图片管理&nbsp;&nbsp;>&nbsp;&nbsp;添加图片</td>
   </tr>
   <tr>
     <td align="left" valign="top" id="addinfo">
@@ -48,34 +48,28 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
   </tr>
   <tr>
     <td align="left" valign="top">
-    <form method="post" action="{{url('backuser/up_pwd_do')}}">
+    <form method="post" action="{{url('backimg/add_do')}}" enctype="multipart/form-data" id="form">
     <table width="100%" border="0" cellspacing="0" cellpadding="0" id="main-tab">
       <input type="hidden" name="_token" value="{{csrf_token()}}">
       <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
         <td align="right" valign="middle" class="borderright borderbottom bggray">  
-          管理员名称：
+          城市：
         </td>
         <td align="left" valign="middle" class="borderright borderbottom main-for">
-          <p>{{$arr['u_name']}}</p>
-        <span class="y_u_name"></span>
+          <select id="province" name="province">
+            <option value="">选择省份...</option>
+            @foreach($arr as $k => $v)
+            <option value="{{$v['city_id']}}">{{$v['city_name']}}</option>
+            @endforeach
+          </select>
         </td>
         </tr>     
-      
-        <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
+      <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
         <td align="right" valign="middle" class="borderright borderbottom bggray">
-          新密码：
+          图片：
         </td>
         <td align="left" valign="middle" class="borderright borderbottom main-for">
-          <input type="password" name="u_pwd" value="" class="text-word">
-          <span class="y_u_pwd"></span>
-        </td>
-        <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-        <td align="right" valign="middle" class="borderright borderbottom bggray">
-          确认密码：
-        </td>
-        <td align="left" valign="middle" class="borderright borderbottom main-for">
-          <input type="password" name="u_psd" value="" class="text-word">
-          <span class="y_u_psd"></span>
+          <input type="file" name="img" value="img" class="text-word">
         </td>
         </tr>
         <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
@@ -83,7 +77,6 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
           
         </td>
         <td align="left" valign="middle" class="borderright borderbottom main-for">
-          <input type="hidden" name="id" value="{{$arr['u_id']}}">
           <input name="" type="submit" value="提交" class="text-but">
         </td>
         </tr>
@@ -96,43 +89,40 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
 </html>
 <script>
 $(function(){
-  var pwd=false;
-  var psd = false;
-    
-    $(document).on('blur',"[name='u_pwd']",function(){
-      var up_pwd = $(this).val();
-      if(up_pwd){
-        $(".y_u_pwd").html("<font color='green'>√</font>");
-        pwd=true;return true;
-      }else{
-        $(".y_u_pwd").html("<font color='red'>密码不能为空</font>");
-        pwd=false;return false;
+  var city = false;
+  $(document).on("change","#province",function(){
+    var obj = $(this);
+    var pro = obj.val();
+    obj.next().remove();
+    if(pro==""){
+      city = false;
+     return false; 
+    }    
+    $.ajax({
+      type:'get',
+      url:"<?php echo url('backimg/city');?>",
+      data:{pro:pro},
+      success:function(msg){
+        if(msg['success']==1){
+          var str = "";
+          str += "<select id='city' name='city'>";
+          $(msg['data']).each(function(i,v){
+              str += "<option value='"+v.city_id+"'>"+v.city_name+"</option>";
+          })
+          str += "</select>";
+          // alert(str)
+          obj.after(str);
+          city = true;
+        }
       }
-    })   
-    $(document).on('blur',"[name='u_psd']",function(){
-      var up_psd = $(this).val();
-      var up_pwd = $("[name='u_pwd']").val();
-      if(up_pwd){
-        if(up_pwd==up_psd){
-          $(".y_u_psd").html("<font color='green'>√</font>");
-          psd=true;return true;
-        }else{
-          $(".y_u_psd").html("<font color='red'>两次密码不一致</font>");
-          psd=false;return false;
-        }        
-      }else{
-        $(".y_u_psd").html("<font color='red'>密码不能为空</font>");
-        psd=false;return false;
-      }
-    })  
-    $("form").submit(function(){
-      if(title==true && psd==true){
+    })
+  })
+  $(document).on("submit","#form",function(){
+    if(city==true){
         return true;
       }else{
         return false;
-      }
-    })
+      }  
+  })
 })
-
-
 </script>
