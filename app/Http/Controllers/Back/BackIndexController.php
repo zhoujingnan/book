@@ -16,7 +16,7 @@ class BackIndexController extends CommonController{
 	public function top(){
 		$ip=$this->getIp();
 		$data=$this->getWeather($ip);
-		$time=date("Y-m-d");
+		$time=date("Y-m-d",time()+28800);
 		$str='';
 		foreach ($data as $key => $val) {
 			if($val['days']==$time){

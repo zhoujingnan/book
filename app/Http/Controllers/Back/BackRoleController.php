@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Back;
 use App\Http\Controllers\Back\CommonController;
 use App\Back\BackActivityModel;
+use App\Back\CommonModel;
 use DB;
 use Input;
 /**
@@ -44,12 +45,30 @@ class BackRoleController extends CommonController
 		foreach ($data as $key => $val) {
 			$p_name[]=$val['cname'];
 		}
-		return view("back.role_power_add",['arr'=>$p_data,'cname'=>$p_name]);
+		return view("back.role_power_add",['arr'=>$p_data,'cname'=>$p_name,'r_id'=>$role_id]);
 	}
 	//权限添加
 	public function powerAddDo(){
 		$arr=$_POST;
+<<<<<<< HEAD
 		print_r($arr);
+=======
+		unset($arr['_token']);
+		$data=array();
+		foreach ($arr['cname'] as $key => $val) {
+			$data[$key]['r_id']=$arr['r_id'];
+			$data[$key]['p_id']=$val;
+		}
+		$r_id=$arr['r_id'];
+		$obj=new CommonModel();
+		$obj->del("r_p","r_id=$r_id");
+		foreach ($data as $key => $val) {
+			$res=$obj->add("r_p",$val);
+		}
+		if($res){
+			return redirect("backrole/index");
+		}
+>>>>>>> 051aeb6df097c53ccca4178812b8bc36a36d695b
 	}
 		//权限入库
 	//删除角色
