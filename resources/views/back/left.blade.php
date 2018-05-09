@@ -32,7 +32,7 @@ body{overflow-x:hidden; background:url({{asset('images/main/leftbg.jpg')}}) left
       <div>
         <span>管理员管理</span>
         <a href="{{url('backuser/index')}}" target="mainFrame" onFocus="this.blur()">管理员列表</a>
-        <a href="main_list.html" target="mainFrame" onFocus="this.blur()">角色列表</a>
+        <a href="{{url('backrole/index')}}" target="mainFrame" onFocus="this.blur()">角色列表</a>
         <a href="main_info.html" target="mainFrame" onFocus="this.blur()">权限列表</a>
       </div>
       <div>
