@@ -33,6 +33,11 @@ class HomeIndexController extends Controller{
 		foreach ($book_name_data as $key => $val) {
 			$str[$key]['title']=$val['b_title'];
 		}
+		//轮播图图片
+		$user_city=$this->getCity();
+		$city=$user_city."市";
+		$img_data=DB::select("SELECT * FROM img INNER JOIN city ON img.city_id =city.city_id WHERE city.city_name='$city'");
+		$imgArr=json_decode(json_encode($img_data),true);
 		// $str=json_encode($str,JSON_UNESCAPED_UNICODE);
 		//登录的用户
 		Session::put("member_id",1);
@@ -55,16 +60,22 @@ class HomeIndexController extends Controller{
 		
 		// print_r($book_data);die;
 		
-		return view("home.index",['arr'=>$arr,'book_data'=>$book_data,'member'=>$member,'page'=>$page,'totalpage'=>$totalpage,'count'=>$count,'str'=>$str]);
+		return view("home.index",['arr'=>$arr,'book_data'=>$book_data,'member'=>$member,'page'=>$page,'totalpage'=>$totalpage,'count'=>$count,'str'=>$str,'imgArr'=>$imgArr]);
 	}
 	//分页
 	public function ajaxPage(){
-		//条件
+		//长尾词书名条件
+		$b_title=$_GET['b_title'];
+		//分类条件
 		$cate_id=$_GET['cate_id'];
-		if(empty($cate_id)){
+		if(empty($cate_id)&&empty($b_title)){
 			$where="1=1";
-		}else{
+		}else if(!empty($cate_id)&&empty($b_title)){
 			$where="book.cate_id=$cate_id";
+		}else if(empty($cate_id)&&!empty($b_title)){
+			$where="book.b_title like '%$b_title%'";
+		}else if(!empty($cate_id)&&!empty($b_title)){
+			$where="book.cate_id=$cate_id and book.b_title like '%$b_title%'";
 		}
 		$obj=new CommonModel();
 		//总条数
@@ -154,12 +165,52 @@ class HomeIndexController extends Controller{
 					echo 1;die;//成功
 				}			
 			}			
-		}	
-
-		
+		}		
 	}
+	//获取城市
+	public function getCity(){
+		$url="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json";
+		$ch=curl_init();
+		curl_setopt($ch,CURLOPT_URL,$url);
+		curl_setopt($ch,CURLOPT_HEADER,0);
+		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+		$data=curl_exec($ch);
+		$arr=json_decode($data,true);
+		return $arr['city'];
+	}
+	//收藏
+	public function collect(){
+		$b_id=$_GET['b_id'];
+		$obj=new CommonModel();
+		$m_id=Session::get("member_id");
+		$arr=json_decode(json_encode(DB::select("SELECT * FROM collect WHERE m_id=$m_id AND b_id=$b_id")),true);
+		if(!empty($arr)){
+			echo 1;die;//已收藏过
+		}
+		else
+		{
+			$time=time();
+			$sql="INSERT INTO collect(`b_id`,`m_id`,`addtime`) VALUES('$b_id','$m_id','$time')";
+			$res=DB::insert($sql);
+			if($res){
+				echo 2;die;//收藏成功
+			}else{
+				echo 3;die;//收藏失败
+			}
+		}
+	}
+	//阅读记录
+	public function readLog(){
+		$b_id=$_GET['b_id'];
+		$m_id=Session::get("member_id");
+		$b_data=json_decode(json_encode(DB::select("SELECT * FROM book WHERE b_id=$b_id")),true);
+		$time=time();
+		$res=DB::insert("INSERT INTO read_log(`b_id`,`m_id`,`addtime`) values($b_id,$m_id,$time)");
+		if($res){
+			return view("home.book_detial",['b_data'=>$b_data]);
+		}
 
-
+	}
 	public function about(){
 		return view("home.about");
 	}

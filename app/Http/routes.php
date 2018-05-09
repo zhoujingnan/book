@@ -20,6 +20,8 @@ Route::get("homeindex/article","Home\HomeIndexController@article");
 Route::get("homeindex/moodList","Home\HomeIndexController@moodList");
 Route::get("homeindex/comment","Home\HomeIndexController@comment");
 Route::get("homeindex/addRead","Home\HomeIndexController@addRead");
+Route::get("homeindex/collect","Home\HomeIndexController@collect");
+Route::get("homeindex/readLog","Home\HomeIndexController@readLog");
 //搜索分类图书
 Route::get("homecate/index/{cate_id}","Home\HomeCateController@index");
 //后台首页

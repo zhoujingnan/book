@@ -75,16 +75,21 @@
 									<li data-target="#w_carousel" data-slide-to="3"></li>
 								</ol>
 
-								
+								<!-- 轮播图开始 -->
 								<div class="carousel-inner" role="listbox">
+
 									<div class="item active">
-										<img src="img/slider/slide1.jpg" alt="...">
+										<img src="images/1525607601-3620.jpg" alt="...">
 										<div class="carousel-caption">
-											<h3>First slide label</h3>
-											<p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
 										</div>
 									</div>
+									<?php foreach ($imgArr as $key => $val) {?>
 									<div class="item">
+										<img src="{{asset($val['img'])}}" alt="...">
+										<div class="carousel-caption">...</div>
+									</div>
+									<?php } ?>
+									<!-- <div class="item">
 										<img src="img/slider/slide2.jpg" alt="...">
 										<div class="carousel-caption">...</div>
 									</div>
@@ -95,9 +100,9 @@
 									<div class="item">
 										<img src="img/slider/slide4.jpg" alt="...">
 										<div class="carousel-caption">...</div>
-									</div>
+									</div>	 -->													
 								</div>
-
+								<!-- 轮播图结束 -->
 								
 								<a class="left carousel-control" href="#w_carousel" role="button" data-slide="prev">
 									<span class="glyphicon glyphicon-chevron-left"></span>
@@ -132,7 +137,7 @@
 	<div class="panel panel-default">
 		<div class="panel-body">
 {{$val['b_id']}}
-			<h4><a class="title" href="article_detail.html">{{$val['b_title']}}
+			<h4><a class="title" href="javascript:void(0)" b_id="{{$val['b_id']}}">{{$val['b_title']}}
 				<span style="color:pink">&nbsp;&nbsp;&nbsp;&nbsp;{{$val['cate_name']}}</span>
 			</a></h4>
 			<p>
@@ -156,6 +161,8 @@
 				<span class="count">
 					<i class="glyphicon glyphicon-time"></i>{{date("Y-m-d",$val['addtime'])}}
 				</span>
+				<span class="collect" b_id="{{$val['b_id']}}">收藏</span>
+				&nbsp;&nbsp;&nbsp;&nbsp;
 				<?php if($member==''){ ?>
 					<span class="count">
 						<button class="aa" num="{{$val['num']}}" b_id="{{$val['b_id']}}">借书</button>
@@ -216,10 +223,15 @@
 </span>
 <script>
 $(function(){
+	//长尾词
 	$("#tt").bigAutocomplete({width:254,data:<?php echo json_encode($str,JSON_UNESCAPED_UNICODE); ?>,callback:function(data){
 				// alert(data.title);
 				
 			}});	
+	//搜索
+	$(document).on("click",".bttn",function(){
+		ajaxPage(1)
+	})
 	//判断点击的页数
 	$(document).on("click",".span a",function(){
 		var page=parseInt($("[name='page']").val());
@@ -245,10 +257,11 @@ $(function(){
 	//分页
 	function ajaxPage(p){
 		var cate_id=$(".key").val();
+		var book_title=$("#tt").val();
 		$.ajax({
 			type:'get',
 			url:"{{url('homeindex/ajaxPage')}}",
-			data:{page:p,cate_id:cate_id},
+			data:{page:p,cate_id:cate_id,b_title:book_title},
 			success:function(arr){
 				// console.log(arr);
 				$(".tt").html(arr);
@@ -289,6 +302,39 @@ $(function(){
 			}
 		})
 	})
+	//收藏
+	$(document).on("click",".collect",function(){
+		var b_id=$(this).attr('b_id');
+		$.ajax({
+			type:'get',
+			url:"{{url('homeindex/collect')}}",
+			data:{b_id:b_id},
+			success:function(msg){
+				console.log(msg)
+				if(msg==1){
+					alert("您已收藏过了")
+				}else if(msg==2){
+					alert('收藏成功')
+				}else if(msg==3){
+					alert('收藏失败')
+				}
+			}
+		})
+	})
+	//阅读记录
+	$(document).on("click",".title",function(){
+		var b_id=$(this).attr('b_id');
+		$.ajax({
+			type:'get',
+			url:"{{url('homeindex/readLog')}}",
+			data:{b_id:b_id},
+			success:function(arr){
+				$(".tt").empty();
+				$(".tt").html(arr);
+				// console.log(arr)
+			}
+		})
+	})
 })
 </script>
 <!--文章列表结束-->
@@ -319,8 +365,13 @@ $(function(){
 							</div>
 							<div class="panel-body">
 								<div class="labelList">
-									<a class="label label-default">java</a>
-									<a class="label label-default">tomcat负载均衡</a>
+									@foreach($arr as $key =>$val)
+									<a cate_id="{{$val['cate_id']}}" href="javascript:void(0)" class="label label-default">
+										{{$val['cate_name']}}
+									</a>
+									@endforeach									
+									<!-- <a class="label label-default">java</a> -->
+									<!-- <a class="label label-default">tomcat负载均衡</a>
 									<a class="label label-default">panel</a>
 									<a class="label label-default" href="/tag/jQuery">jQuery</a>
 									<a class="label label-default" href="/tag/jQuery选择器">jQuery选择器</a>
@@ -331,7 +382,7 @@ $(function(){
 									<a class="label label-default" href="/tag/Redis">Redis</a>
 									<a class="label label-default" href="/tag/spring">spring</a>
 									<a class="label label-default" href="/tag/tomcat">tomcat</a>
-									<a class="label label-default" href="/tag/SyntaxHighlighter">SyntaxHighlighter</a>
+									<a class="label label-default" href="/tag/SyntaxHighlighter">SyntaxHighlighter</a> -->
 								</div>
 							</div>
 						</div>

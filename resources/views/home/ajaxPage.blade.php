@@ -3,7 +3,7 @@
 	<div class="panel panel-default">
 		<div class="panel-body">
 {{$val['b_id']}}
-			<h4><a class="title" href="article_detail.html">{{$val['b_title']}}
+			<h4><a class="title" href="javascript:void(0)" b_id="{{$val['b_id']}}">{{$val['b_title']}}
 				<span style="color:pink">&nbsp;&nbsp;&nbsp;&nbsp;{{$val['cate_name']}}</span>
 			</a></h4>
 			<p>
