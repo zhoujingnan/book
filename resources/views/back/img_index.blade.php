@@ -78,8 +78,7 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
           {{$v['city']}}
         </td>
         <td align="center" valign="middle" class="borderbottom">
-          <a href="{{url('backimg/del')}}" target="mainFrame" onFocus="this.blur()" class="add" id="{{$v['img_id']}}">删除</a>
-    			<a href="{{url('backimg/update')}}" target="mainFrame" onFocus="this.blur()" class="add">编辑</a>
+          <a href="javascript:void(0)"  onFocus="this.blur()" class="del" id="{{$v['img_id']}}">删除</a>
     		</td>
       </tr>
     @endforeach
@@ -87,10 +86,10 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
     <input type="hidden" name="page" value="{{$page}}">
     <input type="hidden" name="totalpage" value="{{$totalpage}}">
     <td align="center" valign="top" colspan="10" class="fenye">共{{$count}}条数据&nbsp;&nbsp;当前第{{$page}}页
-        <a href="javascript:void(0)">首页</a>&nbsp;&nbsp;
-        <a href="javascript:void(0)">上一页</a>&nbsp;&nbsp;
-        <a href="javascript:void(0)">下一页</a>&nbsp;&nbsp;
-        <a href="javascript:void(0)">尾页</a>
+        <a href="javascript:void(0)" class="first">首页</a>&nbsp;&nbsp;
+        <a href="javascript:void(0)" class="prev">上一页</a>&nbsp;&nbsp;
+        <a href="javascript:void(0)" class="next">下一页</a>&nbsp;&nbsp;
+        <a href="javascript:void(0)" class="end">尾页</a>
     </td>
   </tr>
 	 </tbody>
@@ -103,10 +102,31 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
 </body>
 <script>
 $(function(){
+  //搜索
+    $(document).on("click",".text-but",function(){
+        var text_word=$(".text-word").val();
+        ajaxPage(1);      
+    })
+    //删除
+    $(document).on('click','.del',function(){
+      var obj = $(this);
+      var id = obj.attr('id');
+      var page = parseInt($("[name='page']").val());
+      $.ajax({
+        type:'get',
+        url:"<?php echo url('backimg/del')?>",
+        data:{id:id},
+        success:function(arr){
+          obj.parent().parent().remove();
+          ajaxPage(page);
+        }
+      })
+    })
     //分析当前页
     $(document).on("click",".fenye a",function(){
       var page=parseInt($("[name='page']").val());
       var totalpage=parseInt($("[name='totalpage']").val());
+      var p = "";
       if($(this).is(".first")){
         p=1;
       }
@@ -124,7 +144,7 @@ $(function(){
       }        
       if($(this).is(".end")){
         p=totalpage;
-      }           
+      }          
         ajaxPage(p);      
     })
     //发送ajax

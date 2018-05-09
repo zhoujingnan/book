@@ -33,6 +33,7 @@ class BackLoginController extends Controller{
             if($arr[0]['status']==1){
                 $time = time();
                 $ip = $this->getIp();
+                // echo $ip;die;
                 $id = $arr[0]['u_id'];
                 $res = DB::update("update `user` set `last_login_time`=$time,`last_login_ip`=$ip,num=num+1 where u_id=$id");
                 Session::put('uid',$arr[0]['u_id']);

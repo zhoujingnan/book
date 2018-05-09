@@ -87,8 +87,8 @@ Route::get("backborrow/ajaxPage","Back\BackBorrowController@ajaxPage");
 Route::get("backborrow/ajaxPage","Back\BackBorrowController@ajaxPage");
 //充值日志
 Route::any("backpay/index","Back\BackPayController@index");
-
-
+//消费日志
+Route::any("backfree/index","Back\BackFreeController@index");
 
 
 Route::get("backborrow/ajaxPage","Back\BackBorrowController@ajaxPage");
@@ -116,3 +116,5 @@ Route::any("backimg/index","Back\BackImgController@index");
 Route::any("backimg/add","Back\BackImgController@add");
 Route::any("backimg/city","Back\BackImgController@city");
 Route::any("backimg/add_do","Back\BackImgController@add_do");
+Route::any("backimg/pagedata","Back\BackImgController@pagedata");
+Route::get("backimg/del","Back\BackImgController@del");

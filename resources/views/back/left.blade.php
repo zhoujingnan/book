@@ -49,6 +49,7 @@ body{overflow-x:hidden; background:url({{asset('images/main/leftbg.jpg')}}) left
       <div>
         <span>日志管理</span>
         <a href="{{url('backpay/index')}}" target="mainFrame" onFocus="this.blur()">充值日志</a>
+        <a href="{{url('backfree/index')}}" target="mainFrame" onFocus="this.blur()">消费日志</a>
       </div>      
     </div>
 </body>
