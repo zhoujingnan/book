@@ -5,6 +5,8 @@
 <link href="{{asset('css/css.css')}}" type="text/css" rel="stylesheet" />
 <link href="{{asset('css/main.css')}}" type="text/css" rel="stylesheet" />
 <link rel="shortcut icon" href="{{asset('images/main/favicon.ico')}}" />
+<link rel="stylesheet" type="text/css" href="{{asset('uploadify.css')}}">
+
 <script src="{{asset('jquery-1.8.3.js')}}"></script>
 <style>
 body{overflow-x:hidden; background:#f2f0f5; padding:15px 0px 10px 5px;}
@@ -39,60 +41,33 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
 <!--main_top-->
 <table width="99%" border="0" cellspacing="0" cellpadding="0" id="searchmain">
   <tr>
-    <td width="99%" align="left" valign="top">您的位置：活动管理&nbsp;&nbsp;>&nbsp;&nbsp;添加活动</td>
+    <td width="99%" align="left" valign="top">您的位置：角色管理&nbsp;&nbsp;>&nbsp;&nbsp;添加角色</td>
   </tr>
   <tr>
     <td align="left" valign="top" id="addinfo">
- 
+    <!-- <a href="add.html" target="mainFrame" onFocus="this.blur()" class="add">添加会员信息</a> -->
     </td>
   </tr>
   <tr>
     <td align="left" valign="top">
-    <form method="post" action="{{url('backactivity/add_do')}}">
+    <form action="{{url('/backrole/add_do')}}" enctype="multipart/form-data" method="post">
     <table width="100%" border="0" cellspacing="0" cellpadding="0" id="main-tab">
-      <input type="hidden" name="_token" value="{{csrf_token()}}">
-      <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-        <td align="right" valign="middle" class="borderright borderbottom bggray">活动名：</td>
-        <td align="left" valign="middle" class="borderright borderbottom main-for">
-        <input type="text" name="name" value="" class="text-word">
-        <span class="y_name"></span>
-        </td>
+    	<input type="hidden" name="_token" value="{{csrf_token()}}">
+      	<tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
+        	<td align="right" valign="middle" class="borderright borderbottom bggray">	
+        		角色名称：
+        	</td>
+        	<td align="left" valign="middle" class="borderright borderbottom main-for">
+        		<input type="text" name="r_name" value="" class="text-word">
+        		<span class="s_name"></span>
+       		</td>
         </tr>
       <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-        <td align="right" valign="middle" class="borderright borderbottom bggray">开始时间：</td>
-        <td align="left" valign="middle" class="borderright borderbottom main-for">
-        <input type="datetime-local" name="starttime" value="" class="text-word">
-        <span class="y_start"></span>
-        </td>
-      </tr>
-      <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-        <td align="right" valign="middle" class="borderright borderbottom bggray">结束时间：</td>
-        <td align="left" valign="middle" class="borderright borderbottom main-for">
-        <input type="datetime-local" name="endtime" value="" class="text-word">
-        <span class="y_end"></span>
-        </td>
-      </tr>
-      <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-        <td align="right" valign="middle" class="borderright borderbottom bggray">简介：</td>
-        <td align="left" valign="middle" class="borderright borderbottom main-for">
-            <textarea name="desc" id="" cols="30" rows="10"></textarea>
-            <span class="y_desc"></span>
-        </td>
-      </tr>
-      
-      <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-        <td align="right" valign="middle" class="borderright borderbottom bggray">排序：</td>
-        <td align="left" valign="middle" class="borderright borderbottom main-for">
-            <input type="text" name="order" value="" class="text-word">
-            <span class="y_order"></span>
-        </td>
-      </tr>       
-      <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-        <td align="right" valign="middle" class="borderright borderbottom bggray">&nbsp;</td>
-        <td align="left" valign="middle" class="borderright borderbottom main-for">
-        <input name="" type="submit" value="提交" class="text-but">
-        <input name="" type="reset" value="重置" class="text-but"></td>
-        </tr>
+        	<td align="right" valign="middle" class="borderright borderbottom bggray">&nbsp;</td>
+        	<td align="left" valign="middle" class="borderright borderbottom main-for">
+        		<input name="" type="submit" value="提交" class="text-but">
+        		<input name="" type="reset" value="重置" class="text-but"></td>
+       </tr>
     </table>
     </form>
     </td>
@@ -102,24 +77,41 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
 </html>
 <script>
 $(function(){
-  var a_name = false;
-  $(document).on("blur","[name='name']",function(){
-    var name = $(this).val();
-    // alert(1)
-    if(name==""){
-      a_name = false;
-      $(".y_name").html("活动名不能为空");
-    }else{
-      a_name = true;
-      $(".y_name").html("");
-    }
-  })
-  $(document).on("submit","form",function(){
-    if(a_name==false){
-      return false;
-    }else{
-      return true;
-    }
-  })
+	var name=false;
+	//判断角色名
+	$("[name='r_name']").blur(function(){
+		var role_name=$(this).val();
+		if(role_name){
+			$.ajax({
+				type:'get',
+				url:"<?php echo url('backrole/uniqueTitle')?>",
+				data:{role_name:role_name},
+				success:function(res){
+					if(res==1){
+						$(".s_name").html('<font color="red">角色名已存在</font>');
+						name=false;
+						return false;
+					}else{
+						$(".s_name").html('<font color="green">√</font>');
+						name=true;return true;
+					}
+				}
+			})
+		}else{
+			$(".s_name").html('<font color="red">请填写角色名</font>');
+			name=false;return false;
+		}
+	})
+	//判断提交按钮
+	$("form").submit(function(){
+		if(name==true){
+			return true;
+		}else{
+			return false;
+		}
+	})
+
 })
+
+
 </script>

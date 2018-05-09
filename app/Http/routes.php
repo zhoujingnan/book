@@ -101,7 +101,9 @@ Route::get("backbad/check/{id}/{m_id}","Back\BackBadController@check");
 Route::post("backbad/checkDo","Back\BackBadController@checkDo");
 //活动管理
 Route::get("backactivity/add","Back\BackActivityController@add");
+Route::post("backactivity/add_do","Back\BackActivityController@add_do");
 Route::get("backactivity/index","Back\BackActivityController@index");
+Route::get("backactivity/del","Back\BackActivityController@del");
 
 
 //管理员管理
@@ -120,3 +122,9 @@ Route::any("backimg/city","Back\BackImgController@city");
 Route::any("backimg/add_do","Back\BackImgController@add_do");
 Route::any("backimg/pagedata","Back\BackImgController@pagedata");
 Route::get("backimg/del","Back\BackImgController@del");
+
+//角色管理
+Route::get("/backrole/index","Back\BackRoleController@index");
+Route::get("/backrole/add","Back\BackRoleController@add");
+Route::post("/backrole/add_do","Back\BackRoleController@add_do");
+Route::get("/backrole/uniqueTitle","Back\BackRoleController@uniqueTitle");
