@@ -26,8 +26,13 @@ class BackImgController extends CommonController{
 			$where="1=1";
 		}else{
 			$c_data = DB::select("select * from `city` where city_name like '%$key%'");
-			$c_id = json_decode(json_encode($c_data),true)[0]['city_id'];
-			$where="`city_id`= $c_id";
+			$c_data = json_decode(json_encode($c_data),true);
+			$c_id = "";
+			foreach ($c_data as $k => $v) {
+				$c_id .= ",".$v['city_id'];
+			}
+			$cid = substr($c_id, 1);
+			$where="`city_id` in ($cid)";
 		}
 		$obj=new ImgModel();
 		//总条数
