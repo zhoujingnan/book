@@ -100,7 +100,8 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
           {{$v['num']}}
         </td>
         <td align="center" valign="middle" class="borderbottom">
-    			<a href="" target="mainFrame" onFocus="this.blur()" class="add">编辑</a>
+    			<a href="javascript:void(0)" id="{{$v['u_id']}}" class="del" target="mainFrame" onFocus="this.blur()" class="add">删除</a> || 
+          <a href="{{url('backuser/u_role',array('id'=>$v['u_id']))}}" target="mainFrame" onFocus="this.blur()" class="add">添加角色</a> 
     		</td>
       </tr>
       @endforeach
@@ -138,6 +139,24 @@ $(function(){
         }
       }
     })
+  })
+  $(document).on("click",".del",function(){
+    if(confirm("are you sure delete?")){
+        var id =$(this).attr('id');
+        var obj = $(this);
+        $.ajax({
+          type:'get',
+          url:"<?php echo url('backuser/del');?>",
+          data:{id:id},
+          success:function(msg){
+            if(msg==2){
+              alert("不能删除当前登录用户")
+            }else if(msg==1){
+              obj.parent().parent().remove();
+            }
+          }
+        })
+    }
   })
 })
 </script>

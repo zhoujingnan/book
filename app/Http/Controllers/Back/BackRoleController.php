@@ -34,5 +34,17 @@ class BackRoleController extends CommonController
 			return 1;
 		}
 	}
+	//删除角色
+	public function del(){
+		$id = $_GET['id'];
+		DB::table('u_r')->where("r_id","=","$id")->delete();
+		DB::table('r_p')->where("r_id","=","$id")->delete();
+		$res = DB::table('role')->where("r_id","=","$id")->delete();
+		if($res){
+			return 1;
+		}else{
+			return 0;
+		}
+	}
 }
 ?>
