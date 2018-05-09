@@ -55,26 +55,18 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
     <td align="left" valign="top">
         <table width="100%" border="0" cellspacing="0" cellpadding="0" id="main-tab">
           <tr>
-            <th align="center" valign="middle" class="borderright">
-             <span class="pidel">批删</span>
-            </th>
             <th align="center" valign="middle" class="borderright">编号</th>
             <th align="center" valign="middle" class="borderright">角色名</th>
             <th align="center" valign="middle">操作</th>
           </tr>
           @foreach($arr as $key =>$val)
           <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-            <td align="center" valign="middle" class="borderright borderbottom">
-              <input type="checkbox" class="box" value="{{$val['r_id']}}">
-            </td>
             <td align="center" valign="middle" class="borderright borderbottom">{{$val['r_id']}}</td>
             <td align="center" valign="middle" class="borderright borderbottom">{{$val['r_name']}}</td>
             <td align="center" valign="middle" class="borderbottom">
               <a href="{{url('backrole/addpower',['role_id'=>$val['r_id']])}}" target="mainFrame" onFocus="this.blur()" class="add">添加权限</a>
               <span class="gray">&nbsp;|&nbsp;</span>
-              <a href="{{url('backrole/up',['role_id'=>$val['r_id']])}}" target="mainFrame" onFocus="this.blur()" class="add">编辑</a>
-              <span class="gray">&nbsp;|&nbsp;</span>
-              <a href="{{url('backrole/del',['r_id'=>$val['r_id']])}}" target="mainFrame" onFocus="this.blur()" class="add">删除</a>
+              <a href="javascript:void(0)" id="{{$val['r_id']}}" target="mainFrame" onFocus="this.blur()" class="del">删除</a>
             </td>
           </tr>
           @endforeach
@@ -91,27 +83,23 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
 </body>
 </html>
 <script>
- //批删
-    $(document).on("click",".pidel",function(){
+ //删除
+    $(document).on("click",".del",function(){
       if(confirm("are you sure delete?")){
-        var box=$(":checked");
-        var page=$("[name='page']").val();
-        var str='';
-        $.each(box,function(i,v){
-          str+=$(this).val()+",";
-        })
-        s=str.substr(0,str.length-1);
+        var id =$(this).attr('id');
+        var obj = $(this);
         $.ajax({
           type:'get',
-          url:"<?php echo url('backrole/pidel')?>",
-          data:{str:s},
+          url:"<?php echo url('backrole/del');?>",
+          data:{id:id},
           success:function(msg){
-            console.log(msg)
-            if(msg==1){
-              location.href="<?php echo url('backrole/index')?>"
+            if(msg==0){
+              alert("删除失败");
+            }else if(msg==1){
+              obj.parent().parent().remove();
             }
           }
-        })        
+        })
       }
     })  
 

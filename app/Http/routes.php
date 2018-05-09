@@ -114,6 +114,9 @@ Route::get("backuser/only","Back\BackUserController@only");
 Route::get("backuser/up_status","Back\BackUserController@up_status");
 Route::get("backuser/up_pwd/{id}","Back\BackUserController@up_pwd");
 Route::post("backuser/up_pwd_do","Back\BackUserController@up_pwd_do");
+Route::get("backuser/u_role/{id}","Back\BackUserController@u_role");
+Route::get("backuser/del","Back\BackUserController@del");
+Route::post("backuser/u_role_do","Back\BackUserController@u_role_do");
 
 //图片管理
 Route::any("backimg/index","Back\BackImgController@index");
@@ -128,6 +131,7 @@ Route::get("/backrole/index","Back\BackRoleController@index");
 Route::get("/backrole/add","Back\BackRoleController@add");
 Route::post("/backrole/add_do","Back\BackRoleController@add_do");
 Route::get("/backrole/uniqueTitle","Back\BackRoleController@uniqueTitle");
+<<<<<<< HEAD
 Route::get("/backrole/addpower/{role_id}","Back\BackRoleController@addpower");
 Route::post("/backrole/powerAddDo","Back\BackRoleController@powerAddDo");
 
@@ -140,3 +144,6 @@ Route::get("/backpower/add","Back\BackPowerController@add");
 Route::post("/backpower/addDo","Back\BackPowerController@addDo");
 Route::post("/backpower/upDo","Back\BackPowerController@upDo");
 Route::get("/backpower/up/{p_id}","Back\BackPowerController@up");
+=======
+Route::get("/backrole/del","Back\BackRoleController@del");
+>>>>>>> c03a8b90861430054ac1cd1e11961d6c65f70b3a
