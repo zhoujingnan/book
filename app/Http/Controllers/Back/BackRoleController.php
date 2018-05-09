@@ -34,5 +34,23 @@ class BackRoleController extends CommonController
 			return 1;
 		}
 	}
+	//添加权限
+	public function addpower($role_id){
+		$power_data=DB::select("SELECT * FROM role INNER JOIN r_p ON role.r_id =r_p.r_id INNER JOIN power ON r_p.p_id=power.p_id WHERE role.r_id=$role_id");
+		$data=json_decode(json_encode($power_data),true);
+		$p_data=DB::select("SELECT * FROM power");
+		$p_data=json_decode(json_encode($p_data),true);
+		$p_name=array();
+		foreach ($data as $key => $val) {
+			$p_name[]=$val['cname'];
+		}
+		return view("back.role_power_add",['arr'=>$p_data,'cname'=>$p_name]);
+	}
+	//权限添加
+	public function powerAddDo(){
+		$arr=$_POST;
+		print_r($arr);
+		//权限入库
+	}
 }
 ?>

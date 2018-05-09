@@ -128,3 +128,15 @@ Route::get("/backrole/index","Back\BackRoleController@index");
 Route::get("/backrole/add","Back\BackRoleController@add");
 Route::post("/backrole/add_do","Back\BackRoleController@add_do");
 Route::get("/backrole/uniqueTitle","Back\BackRoleController@uniqueTitle");
+Route::get("/backrole/addpower/{role_id}","Back\BackRoleController@addpower");
+Route::post("/backrole/powerAddDo","Back\BackRoleController@powerAddDo");
+
+//权限管理
+Route::get("/backpower/index","Back\BackPowerController@index");
+Route::get("/backpower/del/{p_id}","Back\BackPowerController@del");
+Route::get("/backpower/pidel","Back\BackPowerController@pidel");
+Route::get("/backpower/uniqueTitle","Back\BackPowerController@uniqueTitle");
+Route::get("/backpower/add","Back\BackPowerController@add");
+Route::post("/backpower/addDo","Back\BackPowerController@addDo");
+Route::post("/backpower/upDo","Back\BackPowerController@upDo");
+Route::get("/backpower/up/{p_id}","Back\BackPowerController@up");
