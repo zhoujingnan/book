@@ -34,7 +34,6 @@ class BackRoleController extends CommonController
 			return 1;
 		}
 	}
-<<<<<<< HEAD
 	//添加权限
 	public function addpower($role_id){
 		$power_data=DB::select("SELECT * FROM role INNER JOIN r_p ON role.r_id =r_p.r_id INNER JOIN power ON r_p.p_id=power.p_id WHERE role.r_id=$role_id");
@@ -51,8 +50,8 @@ class BackRoleController extends CommonController
 	public function powerAddDo(){
 		$arr=$_POST;
 		print_r($arr);
+	}
 		//权限入库
-=======
 	//删除角色
 	public function del(){
 		$id = $_GET['id'];
@@ -64,7 +63,6 @@ class BackRoleController extends CommonController
 		}else{
 			return 0;
 		}
->>>>>>> c03a8b90861430054ac1cd1e11961d6c65f70b3a
 	}
 }
 ?>
