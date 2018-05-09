@@ -70,6 +70,7 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
         </td>
         <td align="left" valign="middle" class="borderright borderbottom main-for">
           <input type="file" name="img" value="img" class="text-word">
+          <span class="span"></span>
         </td>
         </tr>
         <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
@@ -89,6 +90,17 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
 </html>
 <script>
 $(function(){
+  //图片
+  $(document).on("change","[name='img']",function(){
+    var file=new FileReader();
+    var f=$(this)[0].files[0];
+    _this=$(this);
+    file.readAsDataURL(f);
+    file.onload=function(e){
+      $(".span").empty();
+      $(".span").html('<img src="'+e.target.result+'" width="150">')
+    }
+  })
   var city = false;
   $(document).on("change","#province",function(){
     var obj = $(this);
