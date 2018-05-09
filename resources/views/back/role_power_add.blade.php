@@ -57,9 +57,10 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
         	<td align="right" valign="middle" class="borderright borderbottom bggray">	
         		控制器名称：
         	</td>
+        	<input type="hidden" name="r_id" value="{{$r_id}}">
         	<td align="left" valign="middle" class="borderright borderbottom main-for">
         		<?php foreach ($arr as $key => $val) {?>
-        			<input type="checkbox" name="cname[]" value="{{$val['cname']}}" <?php if(in_array($val['cname'],$cname)){echo "checked";} ?>>{{$val['p_name']}}<br>
+        			<input type="checkbox" name="cname[]" value="{{$val['p_id']}}" <?php if(in_array($val['cname'],$cname)){echo "checked";} ?>>{{$val['p_name']}}<br>
         		<?php } ?>
        		</td>
         </tr>        

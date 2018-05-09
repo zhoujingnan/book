@@ -131,7 +131,6 @@ Route::get("/backrole/index","Back\BackRoleController@index");
 Route::get("/backrole/add","Back\BackRoleController@add");
 Route::post("/backrole/add_do","Back\BackRoleController@add_do");
 Route::get("/backrole/uniqueTitle","Back\BackRoleController@uniqueTitle");
-<<<<<<< HEAD
 Route::get("/backrole/addpower/{role_id}","Back\BackRoleController@addpower");
 Route::post("/backrole/powerAddDo","Back\BackRoleController@powerAddDo");
 
@@ -144,6 +143,4 @@ Route::get("/backpower/add","Back\BackPowerController@add");
 Route::post("/backpower/addDo","Back\BackPowerController@addDo");
 Route::post("/backpower/upDo","Back\BackPowerController@upDo");
 Route::get("/backpower/up/{p_id}","Back\BackPowerController@up");
-=======
 Route::get("/backrole/del","Back\BackRoleController@del");
->>>>>>> c03a8b90861430054ac1cd1e11961d6c65f70b3a
