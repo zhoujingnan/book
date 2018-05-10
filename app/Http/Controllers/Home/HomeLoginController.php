@@ -50,6 +50,6 @@ class HomeLoginController extends Controller{
 	}
     //微信回调地址
     public function Wechaturi(){
-        $code=$_GET['code'];die;
+    	echo 3;die;
     }	
 }

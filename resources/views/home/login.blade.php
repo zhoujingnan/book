@@ -2,13 +2,14 @@
 <html >
 <head>
 <meta charset="UTF-8">
-<title>CSS3登录注册表单滑动切换特效 - 站长素材</title>
+<title>登录</title>
 
 <link rel="stylesheet" href="{{asset('css/style.css')}}">
 
 <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
   <script src="{{asset('jquery-1.8.3.js')}}"></script>
+  <script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
 </head>
 <body>
 <div style="text-align:center;margin:10px 0; font:normal 14px/24px 'MicroSoft YaHei';">
@@ -23,7 +24,7 @@
             <p>
               <a href="">QQ</a>
               &nbsp;&nbsp;&nbsp;&nbsp;
-              <a href="https://open.weixin.qq.com/connect/qrconnect?appid=wx618587f22d23d877&redirect_uri=http%3A%2F%2Fwww.localhost.com%2Fmonth13%2Fbook%2Fpublic%2Fhome%2FWechaturi&response_type=code&scope=snsapi_base,snsapi_login&state=1#wechat_redirect">Wechat</a>
+              <a href="https://open.weixin.qq.com/connect/qrconnect?appid=wx618587f22d23d877&redirect_uri=http%3A%2F%2F39.106.96.144%2Fbook_wechat.php&response_type=code&scope=snsapi_base,snsapi_login&state=1#wechat_redirect" class="wechat">Wechat</a>
             </p>
             <button class="btn_login" onClick="cambiar_login()">LOGIN</button>
           </div>
@@ -66,6 +67,10 @@
 </html>
 <script>
   $(function(){
+    //微信登录
+    $(document).on("click",".wechat",function(){
+      location.href="{{url('/')}}"
+    })
       //登录
       $(document).on("click","#login",function(){
         var m_name=$("[name='m_name']").val();
