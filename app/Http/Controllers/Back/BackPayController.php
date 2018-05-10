@@ -7,7 +7,10 @@ use DB;
 use Illuminate\Support\Facades\Input;
 class BackPayController extends CommonController{
 	public function index(){
-		
+		$free_data = DB::select('select * from `pay`');
+		if(empty($free_data)){
+			echo "没有充值记录";die;
+		}
 		$input = Input::get();		
 		//当前页
 		$page = isset($input['page']) ? $input['page'] : 1;
