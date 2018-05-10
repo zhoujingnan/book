@@ -20,6 +20,11 @@ class BackBookController extends CommonController{
 		//偏移量
 		$offset=($page-1)*5;
 		$arr=json_decode(json_encode($obj->join('book',"cate","t1.cate_id =t2.cate_id","1=1",$offset,$pagesize,"t1.order")),true);
+		foreach ($arr as $k => $v) {
+			$desc = substr($v['desc'], 0,15)."...";
+			$arr[$k]['desc'] = $desc;
+		}
+		// var_dump($arr);die;
 		return view("back.book_index",['arr'=>$arr,'page'=>$page,'totalpage'=>$totalpage,'count'=>$count,'a_data'=>$a_data]);
 	}
 	//分页
@@ -39,6 +44,10 @@ class BackBookController extends CommonController{
 		//偏移量
 		$offset=($page-1)*5;
 		$arr=json_decode(json_encode($obj->join('book',"cate","t1.cate_id =t2.cate_id",$where,$offset,$pagesize,"t1.order")),true);
+		foreach ($arr as $k => $v) {
+			$desc = substr($v['desc'], 0,15)."...";
+			$arr[$k]['desc'] = $desc;
+		}
 		return view("back.book_ajaxPage",['arr'=>$arr,'page'=>$page,'totalpage'=>$totalpage,'count'=>$count,'key'=>$key]);	
 	}
 	//批删
