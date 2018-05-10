@@ -2,17 +2,22 @@
 namespace App\Http\Controllers\Home;
 use App\Http\Controllers\Controller;
 use DB;
+use Session;
 class HomeMoneyController extends Controller{
 	public function add(){
 		$arr=$_POST;
 		unset($arr['_token']);
 		$type=$arr['type'];
 		$s_id=$arr['money'];
+		$m_id=Session::get("member_id");
 		//查询积分表得到要充值的金钱和积分
 		$arr=DB::table("socre")->where("s_id",$s_id)->first();
 		$s_money=$arr->s_money;
 		$s_socre=$arr->s_socre;
 		if($type==1){
+			$time=time();
+			DB::insert("INSERT INTO `pay`(`m_id`,`type`,`money`,`addtime`) VALUES('$m_id',$type,'$s_money','$time')");
+			DB::update("UPDATE member SET socre=socre+$s_socre WHERE m_id=$m_id");
 			$this->apy($s_money);
 		}
 	}
@@ -74,6 +79,6 @@ class HomeMoneyController extends Controller{
 	}
 	//调用银联支付
 	public function card($s_money){
-		
+
 	}
 }

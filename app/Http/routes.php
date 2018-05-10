@@ -32,6 +32,7 @@ Route::get("home/index","Home\HomeLoginController@index");
 Route::get("home/uniqueUser","Home\HomeLoginController@uniqueUser");
 Route::get("home/sign","Home\HomeLoginController@sign");
 Route::get("home/login","Home\HomeLoginController@login");
+Route::get("home/Wechaturi","Home\HomeLoginController@Wechaturi");
 
 //搜索分类图书
 Route::get("homecate/index/{cate_id}","Home\HomeCateController@index");

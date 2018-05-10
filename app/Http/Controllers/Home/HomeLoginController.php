@@ -48,4 +48,8 @@ class HomeLoginController extends Controller{
 			return 0;//登录失败
 		}
 	}
+    //微信回调地址
+    public function Wechaturi(){
+        $code=$_GET['code'];die;
+    }	
 }
