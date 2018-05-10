@@ -282,14 +282,14 @@ $(function(){
 		{
 			type=2;
 		}
-		console.log(b_id);
-		console.log(num);
+		// console.log(b_id);
+		// console.log(num);
 		$.ajax({
 			type:'get',
 			url:"<?php echo url('homeindex/addRead')?>",
 			data:{b_id:b_id,num:num,type:type},
 			success:function(msg){
-				console.log(msg);
+				// console.log(msg);
 				if(msg==1){
 					history.go(0)
 				}else if(msg==2){
@@ -297,7 +297,17 @@ $(function(){
 				}else if(msg==3){
 					alert("账号审核中");
 				}else if(msg==4){
-					alert("押金不足");
+					// alert("押金不足");
+					if(confirm("押金不足，充值押金？")){
+						$.ajax({
+							type:"get",
+							url:"{{url('homeindex/moneyAdd')}}",
+							success:function(arr){
+								console.log(arr)
+								$(".tt").html(arr);
+							}
+						})
+					}
 				}
 			}
 		})

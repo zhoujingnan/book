@@ -40,8 +40,9 @@ class HomeIndexController extends Controller{
 		$imgArr=json_decode(json_encode($img_data),true);
 		// $str=json_encode($str,JSON_UNESCAPED_UNICODE);
 		//登录的用户
-		Session::put("member_id",1);
+		// Session::put("member_id",1);
 		$member=Session::get("member_id");
+		echo $member;
 		if(!empty($member)){
 			//查询用户的借阅管理
 			$m_data=DB::select("SELECT * FROM borrow WHERE m_id=$member");
@@ -56,6 +57,12 @@ class HomeIndexController extends Controller{
 					}
 				}
 			}			
+		}
+		else
+		{
+			$url=url("home/index");
+			echo "请先登录,跳转中...";
+			header("Refresh:2,url=$url");die;
 		}
 		
 		// print_r($book_data);die;
@@ -210,6 +217,13 @@ class HomeIndexController extends Controller{
 			return view("home.book_detial",['b_data'=>$b_data]);
 		}
 
+	}
+	//缴纳押金
+	public function moneyAdd(){
+		$m_id=Session::get("member_id");
+		//查询积分表
+		$socre_data=json_decode(json_encode(DB::table("socre")->get()),true);
+		return view("home.money_add",['m_id'=>$m_id,'socre_data'=>$socre_data]);
 	}
 	public function about(){
 		return view("home.about");

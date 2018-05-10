@@ -48,8 +48,8 @@ class BackSocreController extends CommonController{
 	//添加
 	public function add(){
 		$obj=new BackSocreModel();
-		$arr=json_decode(json_encode($obj->find("cate"?.,MNBVCXZzXVBNM,./,"1=1")),true);
-		return view("back.socre_add",['arr'=>$arr]);21
+		$arr=json_decode(json_encode($obj->find("cate","1=1")),true);
+		return view("back.socre_add",['arr'=>$arr]);
 	}
 	//做添加
 	public function addDo(){

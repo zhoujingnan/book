@@ -22,6 +22,17 @@ Route::get("homeindex/comment","Home\HomeIndexController@comment");
 Route::get("homeindex/addRead","Home\HomeIndexController@addRead");
 Route::get("homeindex/collect","Home\HomeIndexController@collect");
 Route::get("homeindex/readLog","Home\HomeIndexController@readLog");
+//交纳押金
+Route::get("homeindex/moneyAdd","Home\HomeIndexController@moneyAdd");
+Route::post("homemoney/add","Home\HomeMoneyController@add");
+Route::get("homemoney/re","Home\HomeMoneyController@re");
+
+//登录
+Route::get("home/index","Home\HomeLoginController@index");
+Route::get("home/uniqueUser","Home\HomeLoginController@uniqueUser");
+Route::get("home/sign","Home\HomeLoginController@sign");
+Route::get("home/login","Home\HomeLoginController@login");
+
 //搜索分类图书
 Route::get("homecate/index/{cate_id}","Home\HomeCateController@index");
 //后台首页
