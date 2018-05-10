@@ -52,6 +52,7 @@ class BackLoginController extends Controller{
     	
 
     }
+    
     public function getCaptcha(){
 		$builder = new CaptchaBuilder;
         $builder->build($width = 100, $height = 30, $font = null);
@@ -77,4 +78,5 @@ class BackLoginController extends Controller{
         $ip=$d2[1];
         return $ip;
     }
+
 }

@@ -20,7 +20,11 @@
         <div class="col_md_login">
           <div class="cont_ba_opcitiy">
             <h2>登录</h2>
-            <p></p>
+            <p>
+              <a href="">QQ</a>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <a href="https://open.weixin.qq.com/connect/qrconnect?appid=wx618587f22d23d877&redirect_uri=http%3A%2F%2Fwww.localhost.com%2Fmonth13%2Fbook%2Fpublic%2Fhome%2FWechaturi&response_type=code&scope=snsapi_base,snsapi_login&state=1#wechat_redirect">Wechat</a>
+            </p>
             <button class="btn_login" onClick="cambiar_login()">LOGIN</button>
           </div>
         </div>
