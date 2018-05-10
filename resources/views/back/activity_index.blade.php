@@ -87,6 +87,8 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
         </td>
         <td align="center" valign="middle" class="borderbottom">
           <a href="javascript:void(0)"  onFocus="this.blur()" class="del" id="{{$v['a_id']}}">删除</a>
+          ||
+          <a href="{{url('backactivity/b_active',array('a_id'=>$v['a_id']))}}"  onFocus="this.blur()" class="del" id="{{$v['a_id']}}">查看</a>
     		</td>
       </tr>
     @endforeach

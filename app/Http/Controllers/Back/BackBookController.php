@@ -2,9 +2,12 @@
 namespace App\Http\Controllers\Back;
 use App\Http\Controllers\Back\CommonController;
 use App\Back\BackBookModel;
+use DB;
 class BackBookController extends CommonController{
 	//首页
 	public function index(){
+		$a_data = DB::select("select * from `active`");
+		$a_data = json_decode(json_encode($a_data),true);
 		//总条数
 		$obj=new BackBookModel();
 		$count=$obj->count("book","1=1");
@@ -17,7 +20,7 @@ class BackBookController extends CommonController{
 		//偏移量
 		$offset=($page-1)*5;
 		$arr=json_decode(json_encode($obj->join('book',"cate","t1.cate_id =t2.cate_id","1=1",$offset,$pagesize,"t1.order")),true);
-		return view("back.book_index",['arr'=>$arr,'page'=>$page,'totalpage'=>$totalpage,'count'=>$count]);
+		return view("back.book_index",['arr'=>$arr,'page'=>$page,'totalpage'=>$totalpage,'count'=>$count,'a_data'=>$a_data]);
 	}
 	//分页
 	public function ajaxPage(){
@@ -42,6 +45,7 @@ class BackBookController extends CommonController{
 	public function piDel(){
 		$id=$_GET['id'];
 		$obj=new BackBookModel();
+		DB::table('b_active')->where('b_id','in','$id')->delete();
 		$res=$obj->piDel("book","b_id in ($id)");
 		if($res){
 			echo 1;die;
@@ -68,6 +72,7 @@ class BackBookController extends CommonController{
 	public function del(){
 		$b_id=$_GET['b_id'];
 		$obj=new BackBookModel();
+		DB::table('b_active')->where('b_id','=','$b_id')->delete();
 		$res=$obj->del("book","`b_id`=$b_id");
 		if($res){
 			echo 1;die;
@@ -108,6 +113,20 @@ class BackBookController extends CommonController{
 		else
 		{
 			echo 0;die;
+		}
+	}
+	//添加活动
+	public function b_active(){
+		$a_id = $_GET['a_id'];
+		$b_id = $_GET['b_id'];
+		$b_id = explode(",", $b_id);
+		foreach ($b_id as $k => $v) {
+			$res = DB::table('b_active')->insert(['a_id'=>$a_id,'b_id'=>$v]);
+		}
+		if($res){
+			return 1;
+		}else{
+			return 0;
 		}
 	}
 }

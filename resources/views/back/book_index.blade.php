@@ -27,6 +27,7 @@ body{overflow-x:hidden; background:#f2f0f5; padding:15px 0px 10px 5px;}
 .gray{ color:#dbdbdb;}
 td.fenye{ padding:10px 0 0 0; text-align:right;}
 .bggray{ background:#f9f9f9}
+#active{margin-top:7px;margin-left:7px;height:24px;font-family: "Microsoft YaHei","Tahoma","Arial",'宋体';color:#666;}
 </style>
 </head>
 <body>
@@ -41,7 +42,18 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
     <table width="100%" border="0" cellspacing="0" cellpadding="0" id="search">
   		<tr>
    		 <td width="90%" align="left" valign="middle">
-	         
+	         <form method="post" action="">
+           <span>图书名：</span>
+           <input type="text" name="key" value="" class="text-word">
+           <input name="" type="button" value="查询" id="text-but" class="text-but">
+           <select name="active" id="active">
+              <option value="">选择添加的活动</option>
+             @foreach($a_data as $k => $v)
+             <option value="{{$v['a_id']}}">{{$v['name']}}</option>
+             @endforeach
+           </select>
+           <input name="" type="button" value="添加活动" id="but_active" class="text-but">
+           </form>
          </td>
   		  <td width="10%" align="center" valign="middle" style="text-align:right; width:150px;"><a href="{{url('backbook/add')}}" target="mainFrame" onFocus="this.blur()" class="add">新增图书</a></td>
   		</tr>
@@ -107,6 +119,27 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
 </html>
 <script>
 $(function(){
+  //添加活动
+  $(document).on("click","#but_active",function(){
+    var a_id = $("#active").val();
+    var box=$("[name='box']:checked");
+    var str='';
+    $.each(box,function(i,v){
+      str+=$(this).val()+",";
+    })
+    s=str.substr(0,str.length-1);
+    $.ajax({
+      type:'get',
+      url:"<?php echo url('backbook/b_active');?>",
+      data:{a_id:a_id,b_id:s},
+      success:function(msg){
+        if(msg==1)
+        {
+          alert("添加成功");
+        }
+      }
+    })
+  })
   //判断当前页
   $(document).on("click",".span a",function(){
       var page=parseInt($("[name='page']").val());
@@ -128,9 +161,9 @@ $(function(){
       ajaxPage(p);
   })
   //搜索
-  $(document).on("click",".text-but",function(){
+  $(document).on("click","#text-but",function(){
     
-      ajaxPage(1)
+      ajaxPage(1,)
   })
   //单删
   $(document).on("click","[title='del']",function(){
