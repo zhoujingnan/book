@@ -50,6 +50,9 @@ class BackRoleController extends CommonController
 	//权限添加
 	public function powerAddDo(){
 		$arr=$_POST;
+<<<<<<< HEAD
+		print_r($arr);
+=======
 		unset($arr['_token']);
 		$data=array();
 		foreach ($arr['cname'] as $key => $val) {
@@ -65,6 +68,7 @@ class BackRoleController extends CommonController
 		if($res){
 			return redirect("backrole/index");
 		}
+>>>>>>> 051aeb6df097c53ccca4178812b8bc36a36d695b
 	}
 		//权限入库
 	//删除角色

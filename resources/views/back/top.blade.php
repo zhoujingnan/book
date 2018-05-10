@@ -10,11 +10,11 @@
 <!--禁止网页另存为-->
 <table width="100%" border="0" cellspacing="0" cellpadding="0" id="header">
   <tr>
-    <td rowspan="2" align="left" valign="top" id="logo"><img src="{{asset('images/main/logo.jpg')}}" width="74" height="64"></td>
+    <td rowspan="2" align="left" valign="top" id="logo"><img src="{{asset($net['net_logo'])}}" width="74" height="64"></td>
     <td align="left" valign="bottom">
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
-        <td align="left" valign="bottom" id="header-name">侯马经济开发区</td>
+        <td align="left" valign="bottom" id="header-name">{{$net['net_title']}}</td>
         <td align="right" valign="top" id="header-right">
         	<a href="{{url('backnet/quit')}}" target="topFrame" onFocus="this.blur()" class="admin-out">注销</a>
             <a href="{{url('backnet/index')}}" target="mainFrame" onFocus="this.blur()" class="admin-home">管理首页</a>

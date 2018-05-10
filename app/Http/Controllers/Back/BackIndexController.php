@@ -18,12 +18,15 @@ class BackIndexController extends CommonController{
 		$data=$this->getWeather($ip);
 		$time=date("Y-m-d",time()+28800);
 		$str='';
+		$net_data = DB::select("select * from `net`");
+		$n_data = json_decode(json_encode($net_data),true)[0];
+		// var_dump($n_data);die;
 		foreach ($data as $key => $val) {
 			if($val['days']==$time){
 				$str.=$val['citynm']."&nbsp;".$val['days']."&nbsp;".$val['week']."&nbsp;".$val['weather']."&nbsp;".$val['temperature'];
 			}
 		}
-		return view("back.top",['str'=>$str]);
+		return view("back.top",['str'=>$str,'net'=>$n_data]);
 	}
 	public function getIp(){
 		$url="http://pv.sohu.com/cityjson";
@@ -52,9 +55,16 @@ class BackIndexController extends CommonController{
 		return view("back.bottom");
 	}	
 	public function left(){
-		$obj=new BackIndexModel();
-		$arr=json_decode(json_encode($obj->find("column","1=1")),true);
-		return view("back.left",['arr'=>$arr]);
+		$obj = new BackIndexModel();
+		$arr = json_decode(json_encode($obj->find("column","1=1")),true);
+		$u_id = Session::get('uid');
+		$u_data = DB::select("select * from `user` where u_id=$u_id");
+		$u_data=json_decode(json_encode($u_data),true)[0];
+		$r_data = DB::select("select * from `u_r` inner join `role` on u_r.r_id=role.r_id where u_r.u_id=$u_id");
+		$r_data=json_decode(json_encode($r_data),true)[0];
+		$u_data['role'] = $r_data['r_name'];
+		// var_dump($r_data);die;
+		return view("back.left",['arr'=>$arr,'u_data'=>$u_data]);
 	}	
 	public function swich(){
 		return view("back.swich");

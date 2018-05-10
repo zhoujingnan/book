@@ -56,6 +56,7 @@ Route::post("backbook/addDo","Back\BackBookController@addDo");
 Route::get("backbook/up/{b_id}","Back\BackBookController@up");
 Route::post("backbook/upDo","Back\BackBookController@upDo");
 Route::get("backbook/uniqueTitle","Back\BackBookController@uniqueTitle");
+Route::get("backbook/b_active","Back\BackBookController@b_active");
 
 //网站管理
 Route::get("backnet/add","Back\BackNetController@add");
@@ -115,6 +116,8 @@ Route::get("backactivity/add","Back\BackActivityController@add");
 Route::post("backactivity/add_do","Back\BackActivityController@add_do");
 Route::get("backactivity/index","Back\BackActivityController@index");
 Route::get("backactivity/del","Back\BackActivityController@del");
+Route::get("backactivity/b_active/{id}","Back\BackActivityController@b_active");
+Route::get("backactivity/a_del","Back\BackActivityController@a_del");
 
 
 //管理员管理

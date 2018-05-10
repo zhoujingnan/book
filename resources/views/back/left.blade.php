@@ -22,7 +22,7 @@ body{overflow-x:hidden; background:url({{asset('images/main/leftbg.jpg')}}) left
 <body onselectstart="return false;" ondragstart="return false;" oncontextmenu="return false;">
 <div id="left-top">
 	<div><img src="{{asset('images/main/member.gif')}}" width="44" height="44" /></div>
-    <span>用户：admin<br>角色：超级管理员</span>
+    <span>用户：{{$u_data['u_name']}}<br>角色：{{$u_data['role']}}</span>
 </div>
     <div style="float: left" id="my_menu" class="sdmenu">
       <!-- <div class="collapsed">
