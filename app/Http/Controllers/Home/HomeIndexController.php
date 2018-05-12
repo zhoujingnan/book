@@ -42,7 +42,7 @@ class HomeIndexController extends Controller{
 		//登录的用户
 		// Session::put("member_id",1);
 		$member=Session::get("member_id");
-		echo $member;
+		// echo $member;
 		if(!empty($member)){
 			//查询用户的借阅管理
 			$m_data=DB::select("SELECT * FROM borrow WHERE m_id=$member");
@@ -66,8 +66,10 @@ class HomeIndexController extends Controller{
 		}
 		
 		// print_r($book_data);die;
-		
-		return view("home.index",['arr'=>$arr,'book_data'=>$book_data,'member'=>$member,'page'=>$page,'totalpage'=>$totalpage,'count'=>$count,'str'=>$str,'imgArr'=>$imgArr]);
+		//网站
+		$n_data = DB::select("select * from net");
+		$n_data = json_decode(json_encode($n_data),true)[0];
+		return view("home.index",['arr'=>$arr,'book_data'=>$book_data,'member'=>$member,'page'=>$page,'totalpage'=>$totalpage,'count'=>$count,'str'=>$str,'imgArr'=>$imgArr,'n_data'=>$n_data]);
 	}
 	//分页
 	public function ajaxPage(){
