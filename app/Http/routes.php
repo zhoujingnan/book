@@ -22,6 +22,9 @@ Route::get("homeindex/comment","Home\HomeIndexController@comment");
 Route::get("homeindex/addRead","Home\HomeIndexController@addRead");
 Route::get("homeindex/collect","Home\HomeIndexController@collect");
 Route::get("homeindex/readLog","Home\HomeIndexController@readLog");
+Route::get("homeindex/activeTime","Home\HomeIndexController@activeTime");
+Route::get("homeindex/b_active","Home\HomeIndexController@b_active");
+Route::get("homeindex/a_borrow","Home\HomeIndexController@a_borrow");
 //交纳押金
 Route::get("homeindex/moneyAdd","Home\HomeIndexController@moneyAdd");
 Route::post("homemoney/add","Home\HomeMoneyController@add");

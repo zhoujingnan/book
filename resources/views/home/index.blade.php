@@ -364,8 +364,9 @@ $(function(){
 						<div class="panel panel-default sitetip">
 							<a href="javascript:void(0)">
 								<strong>近期活动</strong>
-								<h3 class="title">嫁人就嫁程序员</h3>
-								<p class="overView">个人网站正在建设中个人网站正在建设中个人网站正在建设中个人网站正在建设中个人网站正在建设中个人网站正在建设中个人网站正在建设中个人网站正在建设中个人网站正在建设中个人网站正在建设中。。。</p>
+								<h3 class="a_name"></h3>
+								<h4 class="timespan"></h4>
+								<p style="display:none;"><button class="active_t"></button></p>
 							</a>
 						</div>
 
@@ -423,6 +424,97 @@ $(function(){
 				</div>
 			</div>
 		</div>
+<!-- 活动开始 -->
+<script type="text/javascript">
+	$(function(){
+		$.ajax({
+            type:'get',
+            url:"<?php echo url('homeindex/activeTime')?>",
+            success:function(msg){
+	            if(msg['success']==0){
+	            	$('.timespan').html("暂无活动");
+	            }else if(msg['success']==1){
+	            	// 活动未开始
+	            	$('.active_t').attr('id',msg['a_id']);
+	            	$('.a_name').html(msg['name']);
+	            	var starttime = msg['starttime']*1000;
+	            	var endtime = msg['endtime']*1000;
+	            	djs(starttime,endtime);
+	            	
+	            }else if(msg['success']==2){
+	            	// 活动开始
+	            	$('.active_t').attr('id',msg['a_id']);
+	            	$('.a_name').html(msg['name']);
+	            	var starttime = msg['starttime']*1000;
+	            	var endtime = msg['endtime']*1000;
+	            	djs(starttime,endtime);
+	            }
+            }
+        })
+        function djs(starttime,endtime){
+        	setInterval(function () {
+		    var nowtime = new Date();
+		    var time = "";
+		    var str = "";
+		    if(starttime>nowtime){
+		    	time = starttime - nowtime;
+		    	str = "未开始";
+		    }else if(starttime<nowtime<endtime){
+		    	time = endtime - nowtime;
+		    	str = "参加活动";
+		    }
+		    var day = parseInt(time / 1000 / 60 / 60 / 24);
+		    var hour = parseInt(time / 1000 / 60 / 60 % 24);
+		    var minute = parseInt(time / 1000 / 60 % 60);
+		    var seconds = parseInt(time / 1000 % 60);
+		    $('.active_t').parent().css('display','block')
+		    if(time<0){
+		    	$('.timespan').html("");
+		    	$('.active_t').html("活动结束");
+		    }else{
+		    	$('.timespan').html(day + "天" + hour + "小时" + minute + "分钟" + seconds + "秒");
+		    	$('.active_t').html(str);
+		    }
+		    
+		  }, 1000);
+        } 
+        $(document).on("click",".active_t",function(){
+        	var obj = $(this);
+        	var id = obj.attr('id');
+        	var price = obj.html();
+        	if(price!="活动结束"){
+        		$.ajax({
+		            type:'get',
+		            data:{id:id},
+		            url:"<?php echo url('homeindex/b_active')?>",
+		            success:function(msg){
+			            $(".tt").html(msg);
+		            }
+		        })
+        	}
+        }) 
+        $(document).on("click",".a_borrow",function(){
+        	var price = $(".active_t").html();
+        	var obj = $(this);
+        	if(price=="未开始"){
+        		alert("活动未开始");
+        	}else if(price=="参加活动"){
+        		var b_id = obj.attr('b_id');
+        		$.ajax({
+		            type:'get',
+		            data:{b_id:b_id},
+		            url:"<?php echo url('homeindex/a_borrow')?>",
+		            success:function(msg){
+			            
+		            }
+		        })
+        	}else if(price=="活动结束"){
+        		alert("活动已结束");
+        	}
+        })   
+	})
+</script>
+<!-- 活动结束 -->
 		<div class="w_foot">
 			<div class="w_foot_copyright">
 				<a target="_blank" href="{{$n_data['net_url']}}" rel="nofollow">{{$n_data['net_bei']}}</a>
