@@ -1,6 +1,7 @@
 <?php 
 namespace App\Http\Controllers\Home;
 use App\Http\Controllers\Controller;
+use Redis;
 use DB;
 use App\Back\CommonModel;
 use Session;
@@ -69,7 +70,66 @@ class HomeIndexController extends Controller{
 		//网站
 		$n_data = DB::select("select * from net");
 		$n_data = json_decode(json_encode($n_data),true)[0];
+		// echo time();die;
+		// var_dump($book_data);die;
 		return view("home.index",['arr'=>$arr,'book_data'=>$book_data,'member'=>$member,'page'=>$page,'totalpage'=>$totalpage,'count'=>$count,'str'=>$str,'imgArr'=>$imgArr,'n_data'=>$n_data]);
+	}
+	//倒计时
+	public function activeTime(){
+		$time = time();
+		$a_data = DB::select("select * from `active` where `endtime`>$time");
+		$a_data = json_decode(json_encode($a_data),true);
+		if(empty($a_data)){
+			$arr['success'] = 0;
+		}else{
+			$arr = $a_data[0];
+			if($a_data[0]['starttime']>$time){
+				$arr['success'] = 1;//活动未开始
+			}else{
+				$arr['success'] = 2;//活动开始
+			}
+		}
+		return $arr;
+	}
+	//参加活动
+	public function b_active(){
+		$obj=new CommonModel();
+		//登录的用户
+		// Session::put("member_id",1);
+		$member=Session::get("member_id");
+		$id = $_GET['id'];
+		$data = DB::select("select * from `b_active` as a inner join `book` as b on a.b_id=b.b_id where a.a_id=$id");
+		$book_data = json_decode(json_encode($data),true);
+		foreach ($book_data as $k => $v) {
+			$c_id = $v['cate_id'];
+			$c_data = DB::select("select * from cate where cate_id=$c_id");
+			$book_data[$k]['cate_name'] = json_decode(json_encode($c_data),true)[0]['cate_name'];
+			$b_id=$v['b_id'];
+			$book_data[$k]['read_num']=count($obj->find("borrow","b_id=$b_id"));
+			$borrow = DB::select("select * from borrow where m_id=$member && b_id=$b_id");
+			if(empty($borrow)){
+				$book_data[$k]['borrow'] = 0;
+			}else{
+				$book_data[$k]['borrow'] = 1;
+			}
+		}
+		
+		// echo $member;
+		
+		return view("home.a_book",array('book_data'=>$book_data));
+	}
+	//活动借书
+	public function a_borrow(){
+		$obj=new CommonModel();
+		$member=Session::get("member_id");
+		$b_id = $_GET['b_id'];
+		$num = count($obj->find("borrow","m_id=$member"));
+		if($num>=3){
+			return 0;die;
+		}else{
+			Redis::set('name','1'); 
+			return $result=Redis::get('name');
+		}
 	}
 	//分页
 	public function ajaxPage(){
@@ -127,7 +187,7 @@ class HomeIndexController extends Controller{
 		}
 		
 		// print_r($book_data);die;
-		return view("home.ajaxPage",['arr'=>$arr,'book_data'=>$book_data,'member'=>$member,'page'=>$page,'totalpage'=>$totalpage,'count'=>$count]);
+		return view("home.ajaxPage",['book_data'=>$book_data,'member'=>$member,'page'=>$page,'totalpage'=>$totalpage,'count'=>$count]);
 	}
 	//点击借书借阅量
 	public function addRead(){
