@@ -22,7 +22,8 @@
 					<i class="glyphicon glyphicon-eye-open"></i>阅读:{{$val['read_num']}}
 				</span>
 				<span class="count">
-					<i class="glyphicon glyphicon-comment"></i>评论:18
+					<a href="{{url('homeindex/comment',['b_id'=>$val['b_id']])}}" class="comment"><i class="glyphicon glyphicon-comment"></i>评论
+					</a>
 				</span>
 				<span class="count">
 					<i class="glyphicon glyphicon-time"></i>{{date("Y-m-d",$val['addtime'])}}

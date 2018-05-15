@@ -25,6 +25,12 @@ Route::get("homeindex/readLog","Home\HomeIndexController@readLog");
 Route::get("homeindex/activeTime","Home\HomeIndexController@activeTime");
 Route::get("homeindex/b_active","Home\HomeIndexController@b_active");
 Route::get("homeindex/a_borrow","Home\HomeIndexController@a_borrow");
+Route::get("homeindex/a_pay","Home\HomeIndexController@a_pay");
+Route::get("homeindex/comment/{id}","Home\HomeIndexController@comment");
+Route::get("homeindex/commentDo","Home\HomeIndexController@commentDo");
+Route::get("homeindex/reply","Home\HomeIndexController@reply");
+Route::get("homeindex/replyDo","Home\HomeIndexController@replyDo");
+Route::get("homeindex/c_del","Home\HomeIndexController@c_del");
 //交纳押金
 Route::get("homeindex/moneyAdd","Home\HomeIndexController@moneyAdd");
 Route::post("homemoney/add","Home\HomeMoneyController@add");

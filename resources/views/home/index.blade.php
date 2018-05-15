@@ -42,6 +42,9 @@
 					</ul> -->
 					<ul>
 						<input type="hidden" class="key">
+						<li><a href="{{url('/')}}">
+							首页
+						</a></li>
 						@foreach($arr as $key =>$val)
 						<li><a cate_id="{{$val['cate_id']}}" href="javascript:void(0)" class="aaa">
 							{{$val['cate_name']}}
@@ -156,7 +159,8 @@
 					<i class="glyphicon glyphicon-eye-open"></i>阅读:{{$val['read_num']}}
 				</span>
 				<span class="count">
-					<i class="glyphicon glyphicon-comment"></i>评论:18
+					<a href="{{url('homeindex/comment',['b_id'=>$val['b_id']])}}" class="comment"><i class="glyphicon glyphicon-comment"></i>评论
+					</a>
 				</span>
 				<span class="count">
 					<i class="glyphicon glyphicon-time"></i>{{date("Y-m-d",$val['addtime'])}}
@@ -232,6 +236,7 @@ $(function(){
 	$(document).on("click",".bttn",function(){
 		ajaxPage(1)
 	})
+
 	//判断点击的页数
 	$(document).on("click",".span a",function(){
 		var page=parseInt($("[name='page']").val());
@@ -345,6 +350,39 @@ $(function(){
 			}
 		})
 	})
+	//买书
+	$(document).on('click','.bb',function(){
+		if(confirm("是否购买")){
+			var obj = $(this);
+			var num = obj.attr('num');
+			var b_id = obj.attr('b_id');
+			$.ajax({
+		        type:'get',
+		        data:{b_id:b_id,num:num},
+		        url:"<?php echo url('homeindex/a_pay')?>",
+		        success:function(msg){
+		            if(msg==0){
+		            	alert("该书已卖完");
+		            }else if(msg==1){
+		            	alert("购买成功");
+		            }else if(msg==2){
+		            	alert("购买失败");
+		            }else if(msg==3){
+		            	if(confirm("余额不足，请先充值")){
+		            		$.ajax({
+								type:"get",
+								url:"{{url('homeindex/moneyAdd')}}",
+								success:function(arr){
+									console.log(arr)
+									$(".tt").html(arr);
+								}
+							})
+		            	}
+		            }
+		        }
+		    })
+		}
+	})
 })
 </script>
 <!--文章列表结束-->
@@ -377,7 +415,7 @@ $(function(){
 							<div class="panel-body">
 								<div class="labelList">
 									@foreach($arr as $key =>$val)
-									<a cate_id="{{$val['cate_id']}}" href="javascript:void(0)" class="label label-default">
+									<a cate_id="{{$val['cate_id']}}" href="javascript:void(0)" class="label label-default hot">
 										{{$val['cate_name']}}
 									</a>
 									@endforeach									
@@ -404,9 +442,13 @@ $(function(){
 							</div>
 							<div class="panel-body">
 								<ul class="list-unstyled sidebar">
+									@foreach($book_data as $k => $val)
 									<li>
-										<a href="/post/04928311">排序算法之冒泡排序 － java实现</a>
+										<a class="title" href="javascript:void(0)" b_id="{{$val['b_id']}}">{{$val['b_title']}}
+											<span style="color:pink">&nbsp;&nbsp;&nbsp;&nbsp;{{$val['cate_name']}}</span>
+										</a>
 									</li>
+									@endforeach
 								</ul>
 							</div>
 						</div>
@@ -505,13 +547,43 @@ $(function(){
 		            data:{b_id:b_id},
 		            url:"<?php echo url('homeindex/a_borrow')?>",
 		            success:function(msg){
-			            
+			            if(msg==0){
+			            	alert("超过借书最大限制");
+			            }else if(msg==1){
+			            	alert("成功");
+			            }else if(msg==2){
+			            	alert("成功");
+			            	$(".active_t").html("已借过");
+			            }else if(msg==4){
+			            	alert("该书已借完")
+			            }
 		            }
 		        })
         	}else if(price=="活动结束"){
         		alert("活动已结束");
         	}
         })   
+        //分页
+		function ajaxPage(p){
+			var cate_id=$(".key").val();
+			var book_title=$("#tt").val();
+			$.ajax({
+				type:'get',
+				url:"{{url('homeindex/ajaxPage')}}",
+				data:{page:p,cate_id:cate_id,b_title:book_title},
+				success:function(arr){
+					// console.log(arr);
+					$(".tt").html(arr);
+				}
+			})
+		}
+	    //分类搜索
+		$(document).on("click",".hot",function(){
+			var cate_id=$(this).attr("cate_id");
+			$(".key").val(cate_id);
+			// alert(cate_id);
+			ajaxPage(1);
+		})
 	})
 </script>
 <!-- 活动结束 -->

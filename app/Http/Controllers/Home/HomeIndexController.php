@@ -70,9 +70,37 @@ class HomeIndexController extends Controller{
 		//网站
 		$n_data = DB::select("select * from net");
 		$n_data = json_decode(json_encode($n_data),true)[0];
-		// echo time();die;
-		// var_dump($book_data);die;
+		
 		return view("home.index",['arr'=>$arr,'book_data'=>$book_data,'member'=>$member,'page'=>$page,'totalpage'=>$totalpage,'count'=>$count,'str'=>$str,'imgArr'=>$imgArr,'n_data'=>$n_data]);
+	}
+	//买书
+	public function a_pay(){
+		$member=Session::get("member_id");
+		$num = $_GET['num'];
+		$b_id = $_GET['b_id'];
+		$b_data = DB::select("select * from `book` where b_id=$b_id");
+		$b_data = json_decode(json_encode($b_data),true)[0];
+		$m_data = DB::select("select * from `member` where m_id=$member");
+		$m_data = json_decode(json_encode($m_data),true)[0];
+		if($num<=0){
+			return 0;die;//已卖完
+		}else{
+			$socre = $b_data['s_price'];
+			if($socre>$m_data['socre'] && $m_data['socre']>0){
+				return 3;die;//余额不足
+			}
+			$time = time();
+			// echo $b_id;die;
+			$res = DB::insert('insert into `borrow`(m_id,b_id,addtime,type) values(?,?,?,?)',["$member","$b_id","$time","2"]);
+			if($res){
+				$b_num = $num-1;				
+				DB::update("update `book` set num=$b_num where b_id=$b_id");
+				DB::update("update `member` set socre=socre-$socre where m_id=$member");
+				return 1;die;//成功
+			}else{
+				return 2;die;//失败
+			}
+		}
 	}
 	//倒计时
 	public function activeTime(){
@@ -122,14 +150,30 @@ class HomeIndexController extends Controller{
 	public function a_borrow(){
 		$obj=new CommonModel();
 		$member=Session::get("member_id");
+		// echo $member;die;
 		$b_id = $_GET['b_id'];
 		$num = count($obj->find("borrow","m_id=$member"));
-		if($num>=3){
-			return 0;die;
+		$b_num = DB::select("select `num` from `book` where b_id=$b_id");
+		$b_num = json_decode(json_encode($b_num),true)[0]['num'];
+		if($b_num<=0){
+			return 4;die;//该书没了
 		}else{
-			Redis::set('name','1'); 
-			return $result=Redis::get('name');
+			if($num>=3){
+				return 0;die;//已借3本
+			}else{
+				$time = time();
+				// echo $b_id;die;
+				$res = DB::insert('insert into `borrow`(m_id,b_id,addtime) values(?,?,?)',["$member","$b_id","$time"]);
+				if($res){
+					$b_num = $b_num-1;
+					DB::update("update `book` set num=$b_num where b_id=$b_id");
+					return 1;die;//成功
+				}else{
+					return 2;die;//失败
+				}
+			}
 		}
+		
 	}
 	//分页
 	public function ajaxPage(){
@@ -287,6 +331,88 @@ class HomeIndexController extends Controller{
 		$socre_data=json_decode(json_encode(DB::table("socre")->get()),true);
 		return view("home.money_add",['m_id'=>$m_id,'socre_data'=>$socre_data]);
 	}
+	//评论
+	public function comment($b_id){
+		//用户id
+		$m_id=Session::get("member_id");
+		//网站信息
+		$n_data = DB::select("select * from net");
+		$n_data = json_decode(json_encode($n_data),true)[0];
+		//图书内容
+		$b_data = DB::select("select * from `book` where b_id = $b_id");
+		$b_data = json_decode(json_encode($b_data),true)[0];
+		//评论内容
+		$c_data = DB::select("select * from `comment` as c inner join `member` as m on c.m_id=m.m_id where c.b_id = $b_id order by c.time asc");
+		$c_data = json_decode(json_encode($c_data),true);
+		foreach ($c_data as $k => $v) {
+			static $a = 1;
+			$c_data[$k]['num'] = $a++;
+			if($m_id==$v['m_id']){
+				$c_data[$k]['user'] = 1;
+			}else{
+				$c_data[$k]['user'] = 0;
+			}
+		}
+		// var_dump($c_data);die;
+		return view("home.comment",['b_data'=>$b_data,'c_data'=>$c_data,'n_data'=>$n_data]);
+	}
+	//提交评论
+	public function commentDo(){
+		$b_id = $_GET['b_id'];
+		$p = $_GET['p'];
+		$m_id=Session::get("member_id");
+		$time = time();
+		$res = DB::insert('insert into `comment`(m_id,b_id,content,time) values(?,?,?,?)',["$m_id","$b_id","$p","$time"]);
+		if($res){
+			return 1;
+		}else{
+			return 0;
+		}
+	}
+	//回复
+	public function reply(){
+		$c_id = $_GET['c_id'];
+		$m_id=Session::get("member_id");
+		$r_data = DB::select("select * from `reply` as r inner join `member` as m on r.m_id=m.m_id where r.c_id=$c_id order by r.time asc");
+		if(empty($r_data)){
+			$arr['success'] = 0;
+			return $arr;
+		}else{
+			$arr['success'] = 1;
+			$r_data = json_decode(json_encode($r_data),true);
+			foreach ($r_data as $k => $v) {
+				if($m_id==$v['m_id']){
+					$r_data[$k]['user'] = 1;
+				}else{
+					$r_data[$k]['user'] = 0;
+				}
+			}
+			$arr['data'] = $r_data;
+			return $arr;
+		}
+	}
+	//提交回复
+	public function replyDo(){
+		$c_id = $_GET['c_id'];
+		$r_p = $_GET['r_p'];
+		$m_id=Session::get("member_id");
+		$time = time();
+		$res = DB::insert('insert into `reply`(m_id,c_id,content,time) values(?,?,?,?)',["$m_id","$c_id","$r_p","$time"]);
+		if($res){
+			return 1;
+		}else{
+			return 0;
+		}
+	}
+	//删除评论
+	public function c_del(){
+		$c_id = $_GET['c_id'];
+		$res = DB::delete("delete from `comment` where c_id =$c_id");
+		DB::delete("delete from `reply` where c_id =$c_id");
+		if($res){
+			return 1;
+		}
+	}
 	public function about(){
 		return view("home.about");
 	}
@@ -296,8 +422,8 @@ class HomeIndexController extends Controller{
 	public function moodList(){
 		return view("home.moodList");
 	}
-	public function comment(){
-		return view("home.comment");
-	}
+	// public function comment(){
+	// 	return view("home.comment");
+	// }
 
 }
