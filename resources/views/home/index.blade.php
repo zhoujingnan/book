@@ -455,7 +455,7 @@ $(function(){
 
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<h3 class="panel-title">关注微信公众号</h3>
+								<h3 class="panel-title">关注微信小程序</h3>
 							</div>
 							<div class="panel-body">
 								<img src="{{asset($n_data['net_er'])}}" style="height: 230.5px;width: 230.5px;" />

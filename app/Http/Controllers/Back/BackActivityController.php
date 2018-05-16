@@ -34,6 +34,7 @@ class BackActivityController extends CommonController
 	public function index(){
 	   	$data = DB::select("select * from `active`");
 	   	$data = json_decode(json_encode($data),true);
+	   	// var_dump($data);die;
 	   	return view("back.activity_index",array('arr'=>$data));
 	}
 	//删除活动
